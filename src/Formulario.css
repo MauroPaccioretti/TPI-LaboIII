@@ -1,0 +1,16 @@
+#main-container {
+  place-items: center center;
+}
+
+#sing-in-form {
+  max-width: 332px;
+}
+
+.form-control:focus {
+  z-index: 5;
+}
+
+.bootstrap-logo {
+  width: 72px;
+  height: 72px;
+}
