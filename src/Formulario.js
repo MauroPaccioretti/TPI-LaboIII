@@ -2,6 +2,7 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
 import "./Formulario.css";
 
@@ -47,7 +48,7 @@ const Formulario = () => {
         </Form.Group>
         <div className="d-grid">
           <Button variant="primary" size="lg">
-            Entrar
+            <Link to="/sarasa">Entrar</Link>
           </Button>
         </div>
         <p className="mt-5">&copy; 2021-2022</p>
