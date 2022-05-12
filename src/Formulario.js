@@ -47,9 +47,21 @@ const Formulario = () => {
           />
         </Form.Group>
         <div className="d-grid">
-          <Button variant="primary" size="lg">
-            <Link to="/sarasa">Entrar</Link>
-          </Button>
+          <Link to="/admin">
+            <Button variant="primary" size="lg">
+              Entrar como Admin
+            </Button>
+          </Link>
+          <Link to="/user">
+            <Button variant="primary" size="lg">
+              Entrar como User
+            </Button>
+          </Link>
+          <Link to="/sarasa">
+            <Button variant="primary" size="lg">
+              Entrar Not Found
+            </Button>
+          </Link>
         </div>
         <p className="mt-5">&copy; 2021-2022</p>
       </Form>

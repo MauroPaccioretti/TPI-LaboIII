@@ -14,3 +14,7 @@
   width: 72px;
   height: 72px;
 }
+
+Button {
+  margin: 3px;
+}
