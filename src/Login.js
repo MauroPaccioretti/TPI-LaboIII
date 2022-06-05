@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAuthDispatch, useAuth } from "./Context/AuthContextProvider";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-import "./Formulario.css";
+import "./Login.css";
 
-const Formulario = () => {
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // REVIEW: 6. uso del dispatch en un componente alejado
+  const dispatch = useAuthDispatch();
+  // equivalente: const auth = useContext(AuthContext);
+  const auth = useAuth();
+
   return (
     <Container id="main-container" className="d-grid h-100">
       <Form id="sing-in-form" className="text-center w-100">
@@ -23,6 +31,10 @@ const Formulario = () => {
             placeholder="Email"
             autoComplete="username"
             className="position-relative"
+            value={email}
+            onChange={(event) => {
+              setEmail(event.target.value);
+            }}
           />
         </Form.Group>
         <Form.Group controlId="sign-in-password" className="mb-3">
@@ -32,6 +44,10 @@ const Formulario = () => {
             placeholder="Contraseña"
             autoComplete="password"
             className="position-relative"
+            value={password}
+            onChange={(event) => {
+              setPassword(event.target.value);
+            }}
           />
         </Form.Group>
         <Form.Group
@@ -47,6 +63,17 @@ const Formulario = () => {
           />
         </Form.Group>
         <div className="d-grid">
+          {auth.waitingLogin && <p>Logueando por favor espere ....</p>}
+          {!auth.waitingLogin && (
+            <button
+              onClick={() => {
+                dispatch.login(email, password);
+              }}
+            >
+              Login
+            </button>
+          )}
+
           <Link to="/admin">
             <Button variant="primary" size="lg">
               Entrar como Admin
@@ -69,4 +96,4 @@ const Formulario = () => {
   );
 };
 
-export default Formulario;
+export default Login;
