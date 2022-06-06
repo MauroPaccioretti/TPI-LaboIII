@@ -1,7 +1,9 @@
 import React from "react";
 import { Outlet, Link } from "react-router-dom";
+import { useAuthDispatch } from "./Context/AuthContextProvider";
 
 const NavbarCustom = () => {
+  const dispatch = useAuthDispatch();
   return (
     <div>
       <li>
@@ -16,6 +18,15 @@ const NavbarCustom = () => {
       <li>
         <Link to="/notFound">NotFound</Link>
       </li>
+      <Link to="/">
+        <button
+          onClick={() => {
+            dispatch.logout();
+          }}
+        >
+          Logout
+        </button>
+      </Link>
       <Outlet />
     </div>
   );

@@ -8,7 +8,6 @@ import React, {
 
 const initialState = {
   currentUser: null,
-  currentRole: null,
   waitingLogin: false,
   loginError: "",
   token: null, // JSON Web Token (JWT)

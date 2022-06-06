@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuthDispatch, useAuth } from "./Context/AuthContextProvider";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import "./Login.css";
 
@@ -14,6 +14,28 @@ const Login = () => {
   const dispatch = useAuthDispatch();
   // equivalente: const auth = useContext(AuthContext);
   const auth = useAuth();
+
+  const navigate = useNavigate();
+
+  // function handleClick(user) {
+  //   if (user?.role === "Admin") {
+  //     navigate("/admin", { replace: true });
+  //   } else if (user?.role === "Usuario") {
+  //     navigate("/user", { replace: true });
+  //   } else {
+  //     navigate("/", { replace: true });
+  //   }
+  // }
+
+  useEffect(() => {
+    if (auth.currentUser?.role === "Admin") {
+      navigate("/admin", { replace: true });
+    } else if (auth.currentUser?.role === "Usuario") {
+      navigate("/user", { replace: true });
+    } else {
+      navigate("/", { replace: true });
+    }
+  }, [auth.currentUser]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Container id="main-container" className="d-grid h-100">
@@ -65,16 +87,20 @@ const Login = () => {
         <div className="d-grid">
           {auth.waitingLogin && <p>Logueando por favor espere ....</p>}
           {!auth.waitingLogin && (
-            <button
+            <Button
+              variant="primary"
+              size="lg"
+              tton
               onClick={() => {
                 dispatch.login(email, password);
+                // handleClick(auth.currentUser);
               }}
             >
               Login
-            </button>
+            </Button>
           )}
 
-          <Link to="/admin">
+          {/* <Link to="/admin">
             <Button variant="primary" size="lg">
               Entrar como Admin
             </Button>
@@ -88,7 +114,7 @@ const Login = () => {
             <Button variant="primary" size="lg">
               Entrar Not Found
             </Button>
-          </Link>
+          </Link> */}
         </div>
         <p className="mt-5">&copy; 2021-2022</p>
       </Form>
