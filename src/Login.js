@@ -27,15 +27,15 @@ const Login = () => {
   //   }
   // }
 
-  useEffect(() => {
-    if (auth.currentUser?.role === "Admin") {
-      navigate("/admin", { replace: true });
-    } else if (auth.currentUser?.role === "Usuario") {
-      navigate("/user", { replace: true });
-    } else {
-      navigate("/", { replace: true });
-    }
-  }, [auth.currentUser]); // eslint-disable-line react-hooks/exhaustive-deps
+  // useEffect(() => {
+  //   if (auth.currentUser?.role === "Admin") {
+  //     navigate("/admin", { replace: true });
+  //   } else if (auth.currentUser?.role === "Usuario") {
+  //     navigate("/user", { replace: true });
+  //   } else {
+  //     navigate("/", { replace: true });
+  //   }
+  // }, [auth.currentUser]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Container id="main-container" className="d-grid h-100">

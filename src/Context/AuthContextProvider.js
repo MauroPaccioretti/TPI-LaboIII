@@ -38,7 +38,7 @@ export default function AuthContextProvider({ children }) {
       })
         .then((res) => res.json())
         .then((loginResponse) => {
-          console.log("login ok", loginResponse);
+          // console.log("login ok", loginResponse);
           // llamada sincronica
           if (loginResponse) {
             dispatch({ type: "setToken", token: loginResponse });
@@ -51,7 +51,7 @@ export default function AuthContextProvider({ children }) {
             })
               .then((res) => res.json())
               .then((res) => {
-                console.log("get ok", res);
+                // console.log("get ok", res);
                 // llamada sincronica
                 if (res) {
                   dispatch({ type: "setCurrentUser", currentUser: res });
@@ -94,7 +94,7 @@ export default function AuthContextProvider({ children }) {
 }
 
 function authReducer(state, action) {
-  console.log("authReducer", action.type, state, action);
+  // console.log("authReducer", action.type, state, action);
   // cualquier cambio de estado tiene sincronico
   switch (action.type) {
     case "setCurrentUser": {
