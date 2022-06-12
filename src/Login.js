@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useAuthDispatch, useAuth } from "./Context/AuthContextProvider";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 import "./Login.css";
 
@@ -15,7 +15,7 @@ const Login = () => {
   // equivalente: const auth = useContext(AuthContext);
   const auth = useAuth();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // function handleClick(user) {
   //   if (user?.role === "Admin") {
