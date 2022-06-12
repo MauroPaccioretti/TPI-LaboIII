@@ -1,0 +1,31 @@
+.card {
+    width: 90%;
+    max-width: 330px;
+    margin: 10px;
+    padding: 10px;
+    box-shadow: 6px 7px 12px 0px rgba(0,0,0,0.75);
+}
+h5 {
+    text-align: center;
+    margin-bottom: 0;
+}
+.card--component {
+    margin-top: 5px;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.card--sub-total {
+    text-align: right;
+    font-weight: 700;
+}
+.card--total {
+    border: 1px solid black;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 900;
+    margin: 5px 0;
+    padding: 5px 0;
+}

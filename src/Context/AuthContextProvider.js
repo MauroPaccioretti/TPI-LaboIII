@@ -115,7 +115,7 @@ function authReducer(state, action) {
   }
 }
 
-// custom hoook: es una funcion use____________
+// custom hook: es una funcion use____________
 export function useAuth() {
   const auth = useContext(AuthContext);
   return auth;
