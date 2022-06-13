@@ -4,6 +4,8 @@ import NavbarCustome from "../Navbar";
 import CardLand from "./CardLand";
 import { useAuth } from "../Context/AuthContextProvider";
 import "./MainUsers.css";
+import SelectAuxTable from "../components/SelectAuxTable";
+import { tableNames } from "../lib/TableNames";
 
 const MainUsers = () => {
   const auth = useAuth();
@@ -29,6 +31,13 @@ const MainUsers = () => {
       <div className="card-container">
         {lands.length > 0 && lands.map((x) => <CardLand land={x} />)}
       </div>
+      {tableNames &&
+        tableNames.map((x) => (
+          <SelectAuxTable key={x.id} label={x.name} tableName={x.table} />
+        ))}
+      {false && (
+        <SelectAuxTable label="Actividad principal" tableName="ActivityMain" />
+      )}
       {false && (
         <ul>
           <li>Cargar formulario</li>
