@@ -20,7 +20,9 @@ const RoutingComponent = () => {
       case "Usuario": {
         return (
           <Routes>
-            <Route path="user" element={<MainUsers />} />
+            <Route path="user" element={<MainUsers />}>
+              {/* <Route path="" element /> */}
+            </Route>
             <Route path="*" element={<Navigate replace to="user" />} />
           </Routes>
         );

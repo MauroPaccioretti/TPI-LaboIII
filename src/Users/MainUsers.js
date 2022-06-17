@@ -29,7 +29,7 @@ const MainUsers = () => {
       MainUsers
       {!lands && <p>Cargando lotes</p>}
       <div className="card-container">
-        {lands.length > 0 && lands.map((x) => <CardLand land={x} />)}
+        {lands.length > 0 && lands.map((x) => <CardLand key={x.id} land={x} />)}
       </div>
       {tableNames &&
         tableNames.map((x) => (
