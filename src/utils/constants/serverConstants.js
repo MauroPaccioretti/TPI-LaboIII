@@ -1,4 +1,4 @@
-const tableNames = [
+const tableNames = () => [
   {
     id: 1,
     name: "Tipo de manzana",
@@ -46,6 +46,9 @@ const tableNames = [
   },
 ];
 
+const baseUrl = "https://localhost:7210/api";
+
 module.exports = {
   tableNames,
+  baseUrl,
 };

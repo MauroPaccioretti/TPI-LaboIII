@@ -6,10 +6,22 @@ import Login from "./Login";
 import MainAdmin from "./Admin/MainAdmin";
 import MainUsers from "./Users/MainUsers";
 import { NotFound } from "./Views/NotFound";
+import MyLands from "Users/MyLands";
+import MyExpenses from "Users/MyExpenses";
+import EditLand from "Users/EditLand";
 
 const RoutingComponent = () => {
   const auth = useAuth();
+
   const [routes, setRoutes] = useState("login");
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("user");
+    if (loggedInUser) {
+      const foundUser = JSON.parse(loggedInUser);
+      auth.currentUser = foundUser;
+    }
+  }, []);
+
   useEffect(() => {
     setRoutes(routesFunction());
   }, [auth.currentUser]);
@@ -21,7 +33,10 @@ const RoutingComponent = () => {
         return (
           <Routes>
             <Route path="user" element={<MainUsers />}>
-              {/* <Route path="" element /> */}
+              <Route index element={<MyLands />} />
+              <Route path="mylands" element={<MyLands />} />
+              <Route path="myexpenses" element={<MyExpenses />} />
+              <Route path="editland" element={<EditLand />} />
             </Route>
             <Route path="*" element={<Navigate replace to="user" />} />
           </Routes>

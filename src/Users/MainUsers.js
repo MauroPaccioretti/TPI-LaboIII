@@ -3,9 +3,11 @@ import { Form, Button } from "react-bootstrap";
 import NavbarCustome from "../Navbar";
 import CardLand from "./CardLand";
 import { useAuth } from "../Context/AuthContextProvider";
-import "./MainUsers.css";
+import "assets/style/MainUsers.css";
 import SelectAuxTable from "../components/SelectAuxTable";
-import { tableNames } from "../lib/TableNames";
+import { tableNames } from "../utils/constants/serverConstants";
+import MyLands from "./MyLands";
+import { NavLink, Outlet } from "react-router-dom";
 
 const MainUsers = () => {
   const auth = useAuth();
@@ -27,14 +29,29 @@ const MainUsers = () => {
     <div>
       <NavbarCustome />
       MainUsers
-      {!lands && <p>Cargando lotes</p>}
+      <nav className="tabs">
+        <NavLink activeClassName="active" className="tab" to="mylands">
+          Mis Lotes
+        </NavLink>
+        <NavLink activeClassName="active" className="tab" to="myexpenses">
+          Mis Expensas
+        </NavLink>
+        <NavLink activeClassName="active" className="tab" to="editland">
+          Editar Lote
+        </NavLink>
+      </nav>
+      <div className="mainusers-container">
+        <Outlet />
+      </div>
+      {/* {!lands && <p>Cargando lotes</p>}
       <div className="card-container">
         {lands.length > 0 && lands.map((x) => <CardLand key={x.id} land={x} />)}
-      </div>
-      {tableNames &&
-        tableNames.map((x) => (
+      </div> */}
+      {/* <MyLands /> */}
+      {/* {tableNames() &&
+        tableNames().map((x) => (
           <SelectAuxTable key={x.id} label={x.name} tableName={x.table} />
-        ))}
+        ))} */}
       {false && (
         <SelectAuxTable label="Actividad principal" tableName="ActivityMain" />
       )}

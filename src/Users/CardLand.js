@@ -1,6 +1,6 @@
 import React from "react";
 import { Form } from "react-bootstrap";
-import "./CardLand.css";
+import "assets/style/CardLand.css";
 const CardLand = ({ land }) => {
   const {
     id,

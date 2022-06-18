@@ -27,7 +27,7 @@ const NavbarCustom = () => {
           Logout
         </button>
       </Link>
-      <Outlet />
+      {/* <Outlet /> */}
     </div>
   );
 };

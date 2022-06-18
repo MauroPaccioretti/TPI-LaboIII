@@ -5,6 +5,7 @@ import React, {
   useState,
   useEffect,
 } from "react";
+import { baseUrl } from "../utils/constants/serverConstants";
 
 const initialState = {
   currentUser: null,
@@ -23,7 +24,7 @@ export default function AuthContextProvider({ children }) {
   const [auth, dispatch] = useReducer(authReducer, initialState);
 
   // REVIEW: async
-  const baseUrl = "https://localhost:7210/api";
+  // const baseUrl = "https://localhost:7210/api";
   const asyncDispatcher = {
     // REVIEW: 3. dispatcher async
     login: (email, password) => {
@@ -81,6 +82,7 @@ export default function AuthContextProvider({ children }) {
       // llamada sincronica
       dispatch({ type: "setCurrentUser", currentUser: null });
       dispatch({ type: "setToken", token: null });
+      localStorage.clear();
     },
   };
 
@@ -98,6 +100,7 @@ function authReducer(state, action) {
   // cualquier cambio de estado tiene sincronico
   switch (action.type) {
     case "setCurrentUser": {
+      localStorage.setItem("user", JSON.stringify(action.currentUser));
       return { ...state, currentUser: action.currentUser, waitingLogin: false };
     }
     case "setToken": {
