@@ -10,20 +10,20 @@ import MyLands from "./MyLands";
 import { NavLink, Outlet } from "react-router-dom";
 
 const MainUsers = () => {
-  const auth = useAuth();
-  const [lands, setLands] = useState({});
-  const fetchLands = () =>
-    fetch("https://localhost:7210/api/land/" + auth.currentUser.id)
-      .then((res) => {
-        return res.json();
-      })
-      .then((body) => {
-        setLands(body);
-      });
+  // const auth = useAuth();
+  // const [lands, setLands] = useState({});
+  // const fetchLands = () =>
+  //   fetch("https://localhost:7210/api/land/" + auth.currentUser.id)
+  //     .then((res) => {
+  //       return res.json();
+  //     })
+  //     .then((body) => {
+  //       setLands(body);
+  //     });
 
-  useEffect(() => {
-    fetchLands();
-  }, []);
+  // useEffect(() => {
+  //   fetchLands();
+  // }, []);
 
   return (
     <div>
