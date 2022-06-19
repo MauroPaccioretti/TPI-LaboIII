@@ -13,9 +13,6 @@ const Expense = ({ expense }) => {
   if (datePaid && new Date(datePaid) > new Date(expirationDate)) {
     state = "paid-late";
   }
-  console.log(datePaid, new Date(datePaid));
-  //   console.log(new Date(expirationDate).toLocaleDateString());
-  //   console.log(typeof expirationDate);
 
   return (
     <div className={`expense-element ${state}`}>

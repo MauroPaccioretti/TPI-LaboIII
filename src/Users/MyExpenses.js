@@ -25,7 +25,7 @@ const MyExpenses = () => {
       ) : (
         <div className="my-expenses-card-container">
           {expenses.map((x) => (
-            <ExpensesByLand arrExpense={x} />
+            <ExpensesByLand key={x.id} arrExpense={x} />
           ))}
         </div>
       )}

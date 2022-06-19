@@ -3,7 +3,6 @@ import Expense from "./Expense";
 
 const ExpensesByLand = ({ arrExpense }) => {
   const landId = arrExpense[0].landId;
-  arrExpense.map((x) => console.log(x, x.landId));
 
   return arrExpense.length > 0 ? (
     <div className="expenses-by-land">

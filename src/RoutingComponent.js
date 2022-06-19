@@ -9,6 +9,7 @@ import { NotFound } from "./Views/NotFound";
 import MyLands from "Users/MyLands";
 import MyExpenses from "Users/MyExpenses";
 import EditLand from "Users/EditLand";
+import EditLandTable from "components/EditLandTable";
 
 const RoutingComponent = () => {
   const auth = useAuth();
@@ -36,7 +37,9 @@ const RoutingComponent = () => {
               <Route index element={<MyLands />} />
               <Route path="mylands" element={<MyLands />} />
               <Route path="myexpenses" element={<MyExpenses />} />
-              <Route path="editland" element={<EditLand />} />
+              <Route path="editland" element={<EditLand />}>
+                <Route path=":landId" element={<EditLandTable />} />
+              </Route>
             </Route>
             <Route path="*" element={<Navigate replace to="user" />} />
           </Routes>

@@ -1,4 +1,3 @@
-import "./App.css";
 import AuthContextProvider from "./Context/AuthContextProvider";
 import RoutingComponent from "./RoutingComponent";
 
