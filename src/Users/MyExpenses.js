@@ -3,6 +3,7 @@ import { customFetch } from "../utils/helpers";
 import { useAuth } from "../Context/AuthContextProvider";
 import Loading from "components/Loading";
 import ExpensesByLand from "components/ExpensesByLand";
+import "assets/style/MyExpenses.css";
 
 const MyExpenses = () => {
   const auth = useAuth();
@@ -22,7 +23,7 @@ const MyExpenses = () => {
       {loading ? (
         <Loading />
       ) : (
-        <div className="card-container">
+        <div className="my-expenses-card-container">
           {expenses.map((x) => (
             <ExpensesByLand arrExpense={x} />
           ))}

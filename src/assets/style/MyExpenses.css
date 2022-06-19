@@ -1,0 +1,19 @@
+.my-expenses-card-container {
+    margin:30px;
+}
+.expenses-by-land{
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px 0;
+}
+.expense-by-land--landid{
+    margin-left: 20px;
+    margin-bottom: 0;
+}
+.expenses-by-land--elements {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
