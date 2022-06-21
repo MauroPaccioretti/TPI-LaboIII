@@ -19,6 +19,7 @@ const Expense = ({ expense }) => {
 
   return (
     <div className={`expense-element ${state}`}>
+      <h5>Periodo {new Date(expirationDate).getMonth()}</h5>
       <ul>
         <li>Costo de la expensa: ${totalCost}</li>
         <li>

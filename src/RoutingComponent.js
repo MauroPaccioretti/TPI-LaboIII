@@ -4,6 +4,8 @@ import { useAuth } from "./Context/AuthContextProvider";
 
 import Login from "./Login";
 import MainAdmin from "./Admin/MainAdmin";
+import ViewUsers from "Admin/ViewUsers";
+import ExpensesUnpaid from "Admin/ExpensesUnpaid";
 import MainUsers from "./Users/MainUsers";
 import { NotFound } from "./Views/NotFound";
 import MyLands from "Users/MyLands";
@@ -45,7 +47,13 @@ const RoutingComponent = () => {
       case "Admin": {
         return (
           <Routes>
-            <Route path="admin" element={<MainAdmin />} />
+            <Route path="admin" element={<MainAdmin />}>
+              <Route index element={<ExpensesUnpaid />} />
+              <Route path="expensesunpaid" element={<ExpensesUnpaid />} />
+              <Route path="viewusers" element={<ViewUsers />} />
+              {/* Generar comprobantes (crear expensas)
+              Ingresar pago (de 1 expensa) */}
+            </Route>
           </Routes>
         );
       }
