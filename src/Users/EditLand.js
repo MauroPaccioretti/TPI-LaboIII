@@ -26,11 +26,11 @@ const EditLand = () => {
       ) : (
         <div className="card-container">
           {lands.length > 0
-            ? lands.map((x) => <EditLandBtn key={x.id} land={x} />)
+            ? lands.map((x) => <EditLandBtn key={x.id} id={x.id} />)
             : "No hay lotes para mostrar"}
         </div>
       )}
-      <Outlet />
+      <Outlet context={{ lands }} />
     </div>
   );
 };

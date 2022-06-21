@@ -1,6 +1,10 @@
 .my-expenses-card-container {
     margin:30px;
 }
+.no-expenses-text {
+    display: flex;
+    justify-content: center;
+}
 .expenses-by-land{
     border: 1px solid black;
     border-radius: 5px;

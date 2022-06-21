@@ -1,13 +1,13 @@
 import Button from "react-bootstrap/Button";
 import React from "react";
 import "assets/style/EditLandBtn.css";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
-const EditLandBtn = ({ land }) => {
+const EditLandBtn = ({ id }) => {
   return (
-    <NavLink to={`${land.id}`}>
+    <NavLink to={`${id}`}>
       <Button variant="success" size="lg" className="edit-land-btn">
-        <div>Editar lote #{land.id}</div>
+        <div>Editar lote #{id}</div>
       </Button>
     </NavLink>
   );

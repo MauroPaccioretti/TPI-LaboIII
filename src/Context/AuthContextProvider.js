@@ -44,7 +44,7 @@ export default function AuthContextProvider({ children }) {
           if (loginResponse) {
             dispatch({ type: "setToken", token: loginResponse });
 
-            fetch(baseUrl + "/users", {
+            fetch(baseUrl + "/login", {
               method: "GET",
               headers: {
                 Authorization: "Bearer " + loginResponse,
