@@ -15,8 +15,11 @@ const MainAdmin = () => {
         <NavLink activeClassName="active" className="tab" to="viewusers">
           Ver Usuarios
         </NavLink>
+        <NavLink activeClassName="active" className="tab" to="payment">
+          Comprobantes
+        </NavLink>
       </nav>
-      <div className="mainusers-container">
+      <div className="mainadmin-container">
         <Outlet />
       </div>
     </div>

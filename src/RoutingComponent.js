@@ -6,6 +6,7 @@ import Login from "./Login";
 import MainAdmin from "./Admin/MainAdmin";
 import ViewUsers from "Admin/ViewUsers";
 import ExpensesUnpaid from "Admin/ExpensesUnpaid";
+import Payment from "Admin/Payment";
 import MainUsers from "./Users/MainUsers";
 import { NotFound } from "./Views/NotFound";
 import MyLands from "Users/MyLands";
@@ -51,9 +52,10 @@ const RoutingComponent = () => {
               <Route index element={<ExpensesUnpaid />} />
               <Route path="expensesunpaid" element={<ExpensesUnpaid />} />
               <Route path="viewusers" element={<ViewUsers />} />
-              {/* Generar comprobantes (crear expensas)
-              Ingresar pago (de 1 expensa) */}
+              <Route path="payment" element={<Payment />} />
+              {/* Generar comprobantes (crear expensas) Ingresar pago (de 1 expensa) */}
             </Route>
+            <Route path="*" element={<Navigate replace to="admin" />} />
           </Routes>
         );
       }
