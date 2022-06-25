@@ -55,13 +55,16 @@ const RoutingComponent = () => {
         return (
           <Routes>
             <Route path="admin" element={<MainAdmin />}>
-              <Route index element={<ExpensesUnpaid />} />
+              {/* <Route index element={<ExpensesUnpaid />} /> */}
               <Route path="expensesunpaid" element={<ExpensesUnpaid />} />
               <Route path="viewusers" element={<ViewUsers />} />
               <Route path="payment" element={<Payment />} />
               {/* Generar comprobantes (crear expensas) Ingresar pago (de 1 expensa) */}
             </Route>
-            <Route path="*" element={<Navigate replace to="admin" />} />
+            <Route
+              path="*"
+              element={<Navigate replace to="admin/expensesunpaid" />}
+            />
           </Routes>
         );
       }

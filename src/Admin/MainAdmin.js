@@ -9,13 +9,22 @@ const MainAdmin = () => {
       <NavbarCustome />
       MainAdmin
       <nav className="tabs">
-        <NavLink activeClassName="active" className="tab" to="expensesunpaid">
-          Expensas Inpagas
+        <NavLink
+          className={({ isActive }) => (isActive ? "active-style tab" : "tab")}
+          to="expensesunpaid"
+        >
+          Expensas Impagas
         </NavLink>
-        <NavLink activeClassName="active" className="tab" to="viewusers">
+        <NavLink
+          className={({ isActive }) => (isActive ? "active-style tab" : "tab")}
+          to="viewusers"
+        >
           Ver Usuarios
         </NavLink>
-        <NavLink activeClassName="active" className="tab" to="payment">
+        <NavLink
+          className={({ isActive }) => (isActive ? "active-style tab" : "tab")}
+          to="payment"
+        >
           Comprobantes
         </NavLink>
       </nav>

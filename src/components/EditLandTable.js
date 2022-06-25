@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { useOutletContext, useParams } from "react-router-dom";
+import { useAuth } from "Context/AuthContextProvider";
 import { tableNames } from "utils/constants/serverConstants";
 import SelectAuxTable from "../components/SelectAuxTable";
 import Button from "react-bootstrap/Button";
-import { customFetch } from "utils/helpers";
+import { customFetchWithBody } from "utils/helpers";
 import { ToastContainer, toast } from "react-toastify";
 import "assets/style/EditLandTable.css";
 import "react-toastify/dist/ReactToastify.css";
 
 const EditLandTable = () => {
+  const auth = useAuth();
   const { landId } = useParams();
-  const { lands } = useOutletContext();
+  const { lands, refetchData } = useOutletContext();
   const [landProps, setLandProps] = useState([]);
   const [landData, setLandData] = useState("");
 
@@ -31,7 +33,7 @@ const EditLandTable = () => {
     let newLandProps = [...landValues];
     newLandProps[index].landPropId = e[key].id;
     setLandProps((landProps) => [
-      ...newLandProps.map((x) => ({ [`${x.table}Id`]: x.landPropId })),
+      ...newLandProps.map((x) => ({ [`${x.prop}Id`]: x.landPropId })),
     ]);
   };
 
@@ -40,6 +42,7 @@ const EditLandTable = () => {
   }, [landId]);
 
   useEffect(() => {
+    console.log(landProps);
     const reduced = landProps.reduce((acc, prop) => {
       return { ...acc, [Object.keys(prop)]: Object.values(prop)[0] };
     }, {});
@@ -47,13 +50,27 @@ const EditLandTable = () => {
   }, [landProps]);
 
   const handleEditClick = () => {
-    console.log(landData);
     if (landData === "") {
       toast.error("Debe modificar valores");
       return;
     }
-    // customFetchWithBody
-    toast.success("Datos modificados");
+    customFetchWithBody(
+      "PUT",
+      "/land/" + landId,
+      JSON.parse(landData),
+      auth.token
+    )
+      .then((res) => {
+        toast.success("Datos modificados");
+      })
+      .then(() => {
+        refetchData();
+        setLandData("");
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Ocurrió un problema");
+      });
   };
 
   //reduced devuelve el objeto necesario para enviar a backend, ubicarlo donde corresponda

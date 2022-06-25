@@ -10,6 +10,16 @@ const EditLand = () => {
   const [lands, setLands] = useState({});
   const [loading, setLoading] = useState(true);
 
+  const refetchData = () => {
+    setLoading(true);
+    customFetch("GET", "/land/" + auth.currentUser.id, auth.token)
+      .then((res) => res.json())
+      .then((body) => {
+        setLands(body);
+        setLoading(false);
+      });
+  };
+
   useEffect(() => {
     customFetch("GET", "/land/" + auth.currentUser.id, auth.token)
       .then((res) => res.json())
@@ -30,7 +40,7 @@ const EditLand = () => {
             : "No hay lotes para mostrar"}
         </div>
       )}
-      <Outlet context={{ lands }} />
+      <Outlet context={{ lands, refetchData }} />
     </div>
   );
 };
