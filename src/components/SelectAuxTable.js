@@ -44,7 +44,11 @@ const SelectAuxTable = ({ label, tableName, onChange, value }) => {
       >
         {data ? (
           data.map((x) => {
-            return <option value={x.id}>{x.name}</option>;
+            return (
+              <option key={x.id} value={x.id}>
+                {x.name}
+              </option>
+            );
           })
         ) : (
           <option>Cargando...</option>
