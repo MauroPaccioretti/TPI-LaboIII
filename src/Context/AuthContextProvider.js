@@ -37,7 +37,12 @@ export default function AuthContextProvider({ children }) {
         },
         body: JSON.stringify({ email, password }),
       })
-        .then((res) => res.json())
+        .then((res) => {
+          if (res.status === 401) {
+            return;
+          }
+          return res.json();
+        })
         .then((loginResponse) => {
           // console.log("login ok", loginResponse);
           // llamada sincronica
@@ -56,7 +61,6 @@ export default function AuthContextProvider({ children }) {
                 // llamada sincronica
                 if (res) {
                   dispatch({ type: "setCurrentUser", currentUser: res });
-                  // dispatch({ type: 'setWaitingLogin', waiting: false });
                 } else {
                   dispatch({
                     type: "setError",
@@ -109,7 +113,12 @@ function authReducer(state, action) {
   switch (action.type) {
     case "setCurrentUser": {
       localStorage.setItem("user", JSON.stringify(action.currentUser));
-      return { ...state, currentUser: action.currentUser, waitingLogin: false };
+      return {
+        ...state,
+        currentUser: action.currentUser,
+        waitingLogin: false,
+        loginError: "",
+      };
     }
     case "setToken": {
       localStorage.setItem("token", action.token);

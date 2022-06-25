@@ -5,9 +5,8 @@ import { tableNames } from "utils/constants/serverConstants";
 import SelectAuxTable from "../components/SelectAuxTable";
 import Button from "react-bootstrap/Button";
 import { customFetchWithBody } from "utils/helpers";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "assets/style/EditLandTable.css";
-import "react-toastify/dist/ReactToastify.css";
 
 const EditLandTable = () => {
   const auth = useAuth();
@@ -42,11 +41,12 @@ const EditLandTable = () => {
   }, [landId]);
 
   useEffect(() => {
-    console.log(landProps);
-    const reduced = landProps.reduce((acc, prop) => {
-      return { ...acc, [Object.keys(prop)]: Object.values(prop)[0] };
-    }, {});
-    setLandData(JSON.stringify(reduced));
+    if (landProps.length > 0) {
+      const reduced = landProps.reduce((acc, prop) => {
+        return { ...acc, [Object.keys(prop)]: Object.values(prop)[0] };
+      }, {});
+      setLandData(JSON.stringify(reduced));
+    }
   }, [landProps]);
 
   const handleEditClick = () => {
@@ -100,7 +100,6 @@ const EditLandTable = () => {
             onChange={handleChange}
           />
         ))}
-      <ToastContainer />
     </div>
   );
 };

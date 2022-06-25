@@ -1,22 +1,83 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuthDispatch, useAuth } from "./Context/AuthContextProvider";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-// import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-import "./Login.css";
+import "assets/style/Login.css";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
 
   const dispatch = useAuthDispatch();
   const auth = useAuth();
 
+  const validEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(/^\S+@\S+\.\S+$/);
+  };
+
+  const loginObject = () => {
+    return {
+      email,
+      password,
+    };
+  };
+
+  const validationRequirements = {
+    email: { required: true, isEmail: true },
+    password: { required: true },
+  };
+
+  const validate = (loginObject) => {
+    let errors = {};
+    if (loginObject) {
+      Object.keys(validationRequirements).forEach((key) => {
+        if (validationRequirements[key].required && !loginObject[key]) {
+          errors[key] = "El campo es obligatorio.";
+        } else if (
+          validationRequirements[key].isEmail &&
+          !validEmail(loginObject[key])
+        ) {
+          errors[key] = "Debe ingresar un email válido.";
+        }
+      });
+    }
+    return errors;
+  };
+
+  useEffect(() => {
+    if (email || password) {
+      setErrors(validate(loginObject()));
+    }
+  }, [email, password]);
+
+  const submitHandler = (event) => {
+    event.preventDefault();
+    if (errors.length > 0 || email === "" || password === "") {
+      toast.error("Complete los datos");
+      return;
+    }
+    dispatch.login(email, password);
+  };
+
+  useEffect(() => {
+    if (auth.loginError !== "" && !auth.waitingLogin) {
+      toast.error(auth.loginError);
+    }
+  }, [auth.loginError, auth.waitingLogin]);
+
   return (
     <Container id="main-container" className="d-grid h-100">
-      <Form id="sing-in-form" className="text-center w-100">
+      <Form
+        onSubmit={submitHandler}
+        id="sing-in-form"
+        className="text-center w-100"
+      >
         <img
           className="mb-4 bootstrap-logo"
           src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg"
@@ -34,7 +95,11 @@ const Login = () => {
             onChange={(event) => {
               setEmail(event.target.value);
             }}
+            onBlur={(event) => {
+              setErrors(validate(loginObject()));
+            }}
           />
+          {errors?.email && <div className="error">{errors.email}</div>}
         </Form.Group>
         <Form.Group controlId="sign-in-password" className="mb-3">
           <Form.Control
@@ -42,38 +107,25 @@ const Login = () => {
             size="lg"
             placeholder="Contraseña"
             autoComplete="password"
-            className="position-relative"
+            className="position-relative mt-5"
             value={password}
             onChange={(event) => {
               setPassword(event.target.value);
             }}
+            onBlur={(event) => setErrors(validate(loginObject()))}
           />
+          {errors?.password && <div className="error">{errors.password}</div>}
         </Form.Group>
         <Form.Group
           controlId="sign-in-remember-me"
           className="d-flex justify-content-center mb-4"
-        >
-          <Form.Check
-            label="Remember me"
-            size="lg"
-            placeholder="Contraseña"
-            autoComplete="password"
-            className="position-relative"
-          />
-        </Form.Group>
+        ></Form.Group>
         <div className="d-grid">
           {auth.waitingLogin && (
             <p>Ingresando a la aplicación, por favor espere....</p>
           )}
           {!auth.waitingLogin && (
-            <Button
-              variant="primary"
-              size="lg"
-              onClick={() => {
-                dispatch.login(email, password);
-                // handleClick(auth.currentUser);
-              }}
-            >
+            <Button type="submit" variant="primary" size="lg">
               Login
             </Button>
           )}

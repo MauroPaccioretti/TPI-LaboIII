@@ -18,3 +18,7 @@
 Button {
   margin: 3px;
 }
+
+.error{
+  color:red
+}
