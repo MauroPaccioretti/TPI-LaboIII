@@ -82,7 +82,15 @@ export default function AuthContextProvider({ children }) {
       // llamada sincronica
       dispatch({ type: "setCurrentUser", currentUser: null });
       dispatch({ type: "setToken", token: null });
-      localStorage.clear();
+    },
+    setLogin: function (user, token) {
+      if (!user || !token) {
+        dispatch({ type: "setCurrentUser", currentUser: null });
+        dispatch({ type: "setToken", token: null });
+        return;
+      }
+      dispatch({ type: "setUserFromLocalStorage", currentUser: user });
+      dispatch({ type: "setToken", token });
     },
   };
 
@@ -104,6 +112,7 @@ function authReducer(state, action) {
       return { ...state, currentUser: action.currentUser, waitingLogin: false };
     }
     case "setToken": {
+      localStorage.setItem("token", action.token);
       return { ...state, token: action.token };
     }
     case "setWaitingLogin": {
@@ -111,6 +120,9 @@ function authReducer(state, action) {
     }
     case "setError": {
       return { ...state, loginError: action.error, waitingLogin: false };
+    }
+    case "setUserFromLocalStorage": {
+      return { ...state, currentUser: action.currentUser };
     }
     default: {
       throw Error("Unknown action: " + action.type);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { useAuth } from "./Context/AuthContextProvider";
+import { useAuth, useAuthDispatch } from "./Context/AuthContextProvider";
 
 import Login from "./Login";
 import MainAdmin from "./Admin/MainAdmin";
@@ -13,14 +13,17 @@ import EditLandTable from "components/EditLandTable";
 
 const RoutingComponent = () => {
   const auth = useAuth();
+  const dispatch = useAuthDispatch();
 
   const [routes, setRoutes] = useState("login");
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+    let foundUser = "";
     if (loggedInUser) {
-      const foundUser = JSON.parse(loggedInUser);
-      auth.currentUser = foundUser;
+      foundUser = JSON.parse(loggedInUser);
     }
+    dispatch.setLogin(foundUser, token);
   }, []);
 
   useEffect(() => {
@@ -34,14 +37,14 @@ const RoutingComponent = () => {
         return (
           <Routes>
             <Route path="user" element={<MainUsers />}>
-              <Route index element={<MyLands />} />
+              {/* <Route index element={<MyLands />} /> */}
               <Route path="mylands" element={<MyLands />} />
               <Route path="myexpenses" element={<MyExpenses />} />
               <Route path="editland" element={<EditLand />}>
                 <Route path=":landId" element={<EditLandTable />} />
               </Route>
             </Route>
-            <Route path="*" element={<Navigate replace to="user" />} />
+            <Route path="*" element={<Navigate replace to="user/mylands" />} />
           </Routes>
         );
       }

@@ -10,32 +10,9 @@ import "./Login.css";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // REVIEW: 6. uso del dispatch en un componente alejado
+
   const dispatch = useAuthDispatch();
-  // equivalente: const auth = useContext(AuthContext);
   const auth = useAuth();
-
-  // const navigate = useNavigate();
-
-  // function handleClick(user) {
-  //   if (user?.role === "Admin") {
-  //     navigate("/admin", { replace: true });
-  //   } else if (user?.role === "Usuario") {
-  //     navigate("/user", { replace: true });
-  //   } else {
-  //     navigate("/", { replace: true });
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (auth.currentUser?.role === "Admin") {
-  //     navigate("/admin", { replace: true });
-  //   } else if (auth.currentUser?.role === "Usuario") {
-  //     navigate("/user", { replace: true });
-  //   } else {
-  //     navigate("/", { replace: true });
-  //   }
-  // }, [auth.currentUser]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Container id="main-container" className="d-grid h-100">
@@ -85,12 +62,13 @@ const Login = () => {
           />
         </Form.Group>
         <div className="d-grid">
-          {auth.waitingLogin && <p>Logueando por favor espere ....</p>}
+          {auth.waitingLogin && (
+            <p>Ingresando a la aplicación, por favor espere....</p>
+          )}
           {!auth.waitingLogin && (
             <Button
               variant="primary"
               size="lg"
-              tton
               onClick={() => {
                 dispatch.login(email, password);
                 // handleClick(auth.currentUser);
@@ -99,22 +77,6 @@ const Login = () => {
               Login
             </Button>
           )}
-
-          {/* <Link to="/admin">
-            <Button variant="primary" size="lg">
-              Entrar como Admin
-            </Button>
-          </Link>
-          <Link to="/user">
-            <Button variant="primary" size="lg">
-              Entrar como User
-            </Button>
-          </Link>
-          <Link to="/sarasa">
-            <Button variant="primary" size="lg">
-              Entrar Not Found
-            </Button>
-          </Link> */}
         </div>
         <p className="mt-5">&copy; 2021-2022</p>
       </Form>
