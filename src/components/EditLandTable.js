@@ -2,16 +2,17 @@ import React, { useEffect, useState } from "react";
 import { useOutletContext, useParams } from "react-router-dom";
 import { tableNames } from "utils/constants/serverConstants";
 import SelectAuxTable from "../components/SelectAuxTable";
-import "assets/style/EditLandTable.css";
 import Button from "react-bootstrap/Button";
+import { customFetch } from "utils/helpers";
 import { ToastContainer, toast } from "react-toastify";
+import "assets/style/EditLandTable.css";
 import "react-toastify/dist/ReactToastify.css";
 
 const EditLandTable = () => {
   const { landId } = useParams();
   const { lands } = useOutletContext();
   const [landProps, setLandProps] = useState([]);
-  const [landData, setLandData] = useState({});
+  const [landData, setLandData] = useState("");
 
   let land = {};
   let landValues = [];
@@ -23,7 +24,7 @@ const EditLandTable = () => {
       landPropId: land[x.prop].id,
     }));
   }
-  //TODO: verificar que pasa con landValues y newLandValues ("mismos valores?")
+  //TODO: verificar que pasa con landValues y newLandProps ("mismos valores?")
   const handleChange = (e) => {
     const key = Object.keys(e)[0];
     const index = landValues.findIndex((x) => x.table === Object.keys(e)[0]);
@@ -34,11 +35,24 @@ const EditLandTable = () => {
     ]);
   };
 
+  useEffect(() => {
+    setLandData("");
+  }, [landId]);
+
+  useEffect(() => {
+    const reduced = landProps.reduce((acc, prop) => {
+      return { ...acc, [Object.keys(prop)]: Object.values(prop)[0] };
+    }, {});
+    setLandData(JSON.stringify(reduced));
+  }, [landProps]);
+
   const handleEditClick = () => {
-    if (landProps.length === 0) {
+    console.log(landData);
+    if (landData === "") {
       toast.error("Debe modificar valores");
       return;
     }
+    // customFetchWithBody
     toast.success("Datos modificados");
   };
 
@@ -52,12 +66,6 @@ const EditLandTable = () => {
 
   // Existe 'beforeDestroyed' para avisarle al usuario que no edito los valores y q
   // va a perder el progreso de las modificaciones??
-  useEffect(() => {
-    const reduced = landProps.reduce((acc, prop) => {
-      return { ...acc, [Object.keys(prop)]: Object.values(prop)[0] };
-    }, {});
-    setLandData((landData) => ({ ...reduced }));
-  }, [landProps]);
 
   return (
     <div className="edit-land-table--container">
