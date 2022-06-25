@@ -13,9 +13,15 @@ const Expense = ({ expense }) => {
   if (datePaid && new Date(datePaid) > new Date(expirationDate)) {
     state = "paid-late";
   }
-
+  console.log(datePaid, new Date(datePaid));
+  //   console.log(new Date(expirationDate).toLocaleDateString());
+  //   console.log(typeof expirationDate);
+  const month = new Date(expirationDate).getMonth() + 1;
   return (
     <div className={`expense-element ${state}`}>
+      <h5>
+        Periodo {month} / {new Date(expirationDate).getFullYear()}
+      </h5>
       <ul>
         <li>Costo de la expensa: ${totalCost}</li>
         <li>
