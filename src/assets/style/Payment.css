@@ -1,0 +1,20 @@
+.div-container {
+  margin-left: 5%;
+}
+.select {
+  border-radius: 5px;
+}
+.addPayment-btn {
+  border-radius: 5px;
+  background-color: gray;
+  color: white;
+  border-style: none;
+  border-width: 1px;
+}
+.addPayment-btn:hover {
+  background-color: lightblue;
+  color: rgb(3, 3, 3);
+}
+.expense-container {
+  display: flex;
+}

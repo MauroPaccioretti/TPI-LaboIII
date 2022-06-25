@@ -1,0 +1,24 @@
+.navbar-route li {
+  visibility: hidden;
+}
+.navbar-route {
+  background-color: lightgray;
+}
+.logout-btn {
+  border-radius: 5px;
+  background-color: rgb(250, 9, 9);
+  color: white;
+  border-style: none;
+  border-width: 3px;
+}
+.logout-btn:hover {
+  background-color: lightcoral;
+  color: white;
+}
+.div-name-logout {
+  display: flex;
+  justify-content: right;
+}
+.user-name {
+  font-weight: 600;
+}

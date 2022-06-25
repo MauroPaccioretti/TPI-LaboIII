@@ -2,13 +2,21 @@ import React from "react";
 import "assets/style/User.css";
 
 const User = ({ person }) => {
-  const { name, email } = person;
+  const { name, email, landsList } = person;
 
   return (
-    <div className="person-by-user">
+    <div className="users-view-container">
       <ul>
-        <li>{name}</li>
-        {email}
+        <h5>{name}</h5>
+        <h6>Correo: {email}</h6>
+        <div className="land-list-container">
+          {landsList.map((x) => (
+            <div>
+              {"Lote#"}
+              {x.id}
+            </div>
+          ))}
+        </div>
       </ul>
     </div>
   );

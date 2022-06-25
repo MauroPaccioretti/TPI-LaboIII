@@ -4,6 +4,7 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { toast } from "react-toastify";
+import logo from "./expense.png";
 
 import "assets/style/Login.css";
 
@@ -78,12 +79,8 @@ const Login = () => {
         id="sing-in-form"
         className="text-center w-100"
       >
-        <img
-          className="mb-4 bootstrap-logo"
-          src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg"
-          alt="bootstrap 5"
-        />
-        <h1 className="fs-3 fw-normal">Complete sus datos</h1>
+        <img className="exp-logo" src={logo} alt="Logo" />
+        <h1 className="fs-3 fw-normal">Expense Manager</h1>
         <Form.Group controlId="sign-in-email-address">
           <Form.Control
             type="email"
@@ -126,11 +123,11 @@ const Login = () => {
           )}
           {!auth.waitingLogin && (
             <Button type="submit" variant="primary" size="lg">
-              Login
+              Iniciar Sesión
             </Button>
           )}
         </div>
-        <p className="mt-5">&copy; 2021-2022</p>
+        <p className="mt-5">&copy; 2022</p>
       </Form>
     </Container>
   );

@@ -18,7 +18,14 @@
 Button {
   margin: 3px;
 }
+.btn-primary {
+  background-color: gray;
+  border-color: gray;
+}
 
-.error{
-  color:red
+.error {
+  color: red;
+}
+.exp-logo {
+  width: 50%;
 }

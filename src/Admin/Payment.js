@@ -3,6 +3,7 @@ import { customFetchWithBody } from "../utils/helpers";
 import { useAuth } from "../Context/AuthContextProvider";
 import Loading from "components/Loading";
 import Expense from "components/Expense";
+import "assets/style/Payment.css";
 
 const Payment = () => {
   const auth = useAuth();
@@ -60,8 +61,12 @@ const Payment = () => {
   };
 
   return (
-    <div>
-      <select value={monthSelect} onChange={handleMonthChange}>
+    <div className="div-container">
+      <select
+        className="select"
+        value={monthSelect}
+        onChange={handleMonthChange}
+      >
         <option value={null}>Seleccione...</option>
         {periodList.map((x) => (
           <option key={x} value={x}>
@@ -69,7 +74,7 @@ const Payment = () => {
           </option>
         ))}
       </select>
-      <select value={yearSelect} onChange={handleYearChange}>
+      <select className="select" value={yearSelect} onChange={handleYearChange}>
         <option value={null}>Seleccione...</option>
         {yearList.map((x) => (
           <option key={x} value={x}>
@@ -77,20 +82,25 @@ const Payment = () => {
           </option>
         ))}
       </select>
-      <button onClick={() => btnGeneratePayHandler(monthSelect, yearSelect)}>
+      <button
+        className="addPayment-btn"
+        onClick={() => btnGeneratePayHandler(monthSelect, yearSelect)}
+      >
         GENERAR COMPROBANTES
       </button>
-      {loading ? (
-        <Loading />
-      ) : !noContent ? (
-        <div className="my-expenses-card-container">
-          {expenseGenerated.map((x) => (
-            <Expense expense={x} />
-          ))}
-        </div>
-      ) : (
-        <span>Las expensas para ese Periodo YA EXISTEN</span>
-      )}
+      <div className="expense-container">
+        {loading ? (
+          <Loading />
+        ) : !noContent ? (
+          <div className="my-expenses-card-container">
+            {expenseGenerated.map((x) => (
+              <Expense expense={x} />
+            ))}
+          </div>
+        ) : (
+          <span>Las expensas para ese Periodo YA EXISTEN</span>
+        )}
+      </div>
     </div>
   );
 };

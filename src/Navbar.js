@@ -1,11 +1,17 @@
 import React from "react";
 import { Outlet, Link } from "react-router-dom";
-import { useAuthDispatch } from "./Context/AuthContextProvider";
+import {
+  useAuth,
+  useAuthDispatch,
+  useCapitalizeName,
+} from "./Context/AuthContextProvider";
+import "assets/style/Navbar.css";
 
 const NavbarCustom = () => {
+  const auth = useAuth();
   const dispatch = useAuthDispatch();
   return (
-    <div>
+    <div className="navbar-route">
       <li>
         <Link to="/">Login</Link>
       </li>
@@ -18,15 +24,25 @@ const NavbarCustom = () => {
       <li>
         <Link to="/notFound">NotFound</Link>
       </li>
-      <Link to="/">
-        <button
-          onClick={() => {
-            dispatch.logout();
-          }}
-        >
-          Logout
-        </button>
-      </Link>
+      <div className="div-name-logout">
+        <span>
+          Hola,{" "}
+          <span className="user-name">
+            {useCapitalizeName(auth.currentUser?.name)}
+          </span>
+          <Link to="/">
+            <button
+              class="logout-btn"
+              onClick={() => {
+                dispatch.logout();
+              }}
+            >
+              Cerrar Sesión
+            </button>
+          </Link>
+        </span>
+      </div>
+
       {/* <Outlet /> */}
     </div>
   );

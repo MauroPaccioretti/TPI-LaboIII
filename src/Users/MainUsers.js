@@ -7,7 +7,6 @@ const MainUsers = () => {
   return (
     <div>
       <NavbarCustome />
-      MainUsers
       <nav className="tabs">
         <NavLink
           className={({ isActive }) => (isActive ? "active-style tab" : "tab")}

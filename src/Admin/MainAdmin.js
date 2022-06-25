@@ -7,7 +7,6 @@ const MainAdmin = () => {
   return (
     <div>
       <NavbarCustome />
-      MainAdmin
       <nav className="tabs">
         <NavLink
           className={({ isActive }) => (isActive ? "active-style tab" : "tab")}
@@ -28,7 +27,7 @@ const MainAdmin = () => {
           Comprobantes
         </NavLink>
       </nav>
-      <div className="mainadmin-container">
+      <div className="mainAdmin-container">
         <Outlet />
       </div>
     </div>

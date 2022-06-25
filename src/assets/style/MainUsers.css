@@ -1,28 +1,27 @@
-.mainusers-container{
-    margin: 30px 0 50px 0;
+.mainusers-container {
+  margin: 30px 0 50px 0;
 }
 .card-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 .tabs {
-    padding-left: 25px;
-    height: 60px;
-    background-color: aquamarine;
-    display: flex;
-    align-items: flex-end;
-
+  padding-left: 25px;
+  height: 60px;
+  background-color: lightgrey;
+  display: flex;
+  align-items: flex-end;
 }
 .tab {
-    margin: 0 10px;
-    padding: 3px 10px;
-    background-color: #292a36;
-    border-radius: 4px 4px 0 0;
-    text-decoration: none;
-    color: white
+  margin: 0 10px;
+  padding: 3px 10px;
+  background-color: #292a36;
+  border-radius: 4px 4px 0 0;
+  text-decoration: none;
+  color: white;
 }
 .active-style {
-    background-color: #f5f5f5;
-    color: black;
+  background-color: #f5f5f5;
+  color: black;
 }
