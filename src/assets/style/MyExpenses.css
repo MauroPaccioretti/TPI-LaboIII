@@ -1,6 +1,15 @@
 .my-expenses-card-container {
   margin: 30px;
 }
+.my-expenses-card-container-admin {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: auto 0;
+}
+.expense-container-admin {
+  width: 80%;
+}
 .no-expenses-text {
   display: flex;
   justify-content: center;

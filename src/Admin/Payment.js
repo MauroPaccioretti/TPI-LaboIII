@@ -88,11 +88,11 @@ const Payment = () => {
       >
         GENERAR COMPROBANTES
       </button>
-      <div className="expense-container">
+      <div className="expense-container-admin">
         {loading ? (
           <Loading />
         ) : !noContent ? (
-          <div className="my-expenses-card-container">
+          <div className="my-expenses-card-container-admin">
             {expenseGenerated.map((x) => (
               <Expense expense={x} />
             ))}

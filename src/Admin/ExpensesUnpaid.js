@@ -25,6 +25,7 @@ const ExpensesUnpaid = () => {
   }, []);
 
   const btnAddPay = (PayDate, idExpense) => {
+    setLoading(true);
     // if (!PayDate) {
     //   return;
     // }
@@ -35,14 +36,10 @@ const ExpensesUnpaid = () => {
       { datePaid: PayDate },
       auth.token
     )
-      .then((res) => {
-        console.log(res);
-        return res.json();
-      })
-      .then((body) => {
+      .then(() => {
         setNoContent(false);
       })
-      .then(
+      .then(() => {
         customFetch("GET", "/expense/unpaid/", auth.token)
           .then((res) => res.json())
           .then((body) => {
@@ -50,8 +47,8 @@ const ExpensesUnpaid = () => {
             setExpensesUnpaid(body);
             setLoading(false);
             setInputPayDate("");
-          })
-      )
+          });
+      })
       .catch(function (error) {
         if (error == "noContent") {
           setNoContent(true);
@@ -82,7 +79,11 @@ const ExpensesUnpaid = () => {
           <tbody className="">
             {expensesUnpaid.map((L) =>
               L.map((e) => (
-                <tr>
+                <tr
+                  className={`${
+                    new Date(e.expirationDate) < Date.now() ? "late-row" : ""
+                  }`}
+                >
                   <th scope="row">
                     {"#"} {e.landId}
                   </th>
@@ -94,8 +95,8 @@ const ExpensesUnpaid = () => {
                   <td>{new Date(e.expirationDate).toLocaleDateString()}</td>
                   <td>
                     {new Date(e.expirationDate) < Date.now()
-                      ? (state = "Vencida")
-                      : (state = "Vigente")}
+                      ? "Vencida"
+                      : "Vigente"}
                   </td>
                   <td>
                     <input
@@ -107,7 +108,6 @@ const ExpensesUnpaid = () => {
                       class="addPay-btn"
                       onClick={() => {
                         btnAddPay(inputPayDate, e.id);
-                        setLoading(true);
                       }}
                     >
                       Agregar Pago

@@ -12,18 +12,6 @@ const NavbarCustom = () => {
   const dispatch = useAuthDispatch();
   return (
     <div className="navbar-route">
-      <li>
-        <Link to="/">Login</Link>
-      </li>
-      <li>
-        <Link to="/user">User</Link>
-      </li>
-      <li>
-        <Link to="/admin">Admin</Link>
-      </li>
-      <li>
-        <Link to="/notFound">NotFound</Link>
-      </li>
       <div className="div-name-logout">
         <span>
           Hola,{" "}

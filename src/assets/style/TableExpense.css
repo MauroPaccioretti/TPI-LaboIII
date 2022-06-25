@@ -16,3 +16,6 @@
 .table {
   display: inline-table;
 }
+.late-row {
+  background-color: lightcoral;
+}
