@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
+import { customFetch } from "utils/helpers";
+import { useAuth } from "Context/AuthContextProvider";
 
 const SelectAuxTable = ({ label, tableName, onChange, value }) => {
+  const auth = useAuth();
   const [selectValue, setSelectValue] = useState(value || 1);
   const [data, setData] = useState(undefined);
   const handleSelectChange = (e) => {
@@ -9,7 +12,7 @@ const SelectAuxTable = ({ label, tableName, onChange, value }) => {
   };
 
   const getData = () => {
-    fetch("https://localhost:7210/api/auxtable/" + tableName)
+    customFetch("GET", "/auxtable/" + tableName, auth.token)
       .then((res) => {
         return res.json();
       })
