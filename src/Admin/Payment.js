@@ -18,11 +18,11 @@ const Payment = () => {
   const periodList = Array.from({ length: 12 }, (_, i) => i + 1);
   const yearList = Array.from({ length: 5 }, (_, i) => i + 2022);
   const handleMonthChange = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setMonthSelect(e.target.value);
   };
   const handleYearChange = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     setYearSelect(e.target.value);
   };
 
@@ -32,8 +32,8 @@ const Payment = () => {
       return;
     }
     const formattedMonth = ("0" + month).slice(-2);
-    console.log(month);
-    console.log(year);
+    // console.log(month);
+    // console.log(year);
     setLoading(true);
     customFetchWithBody(
       "POST",
@@ -42,14 +42,14 @@ const Payment = () => {
       auth.token
     )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.status === 204) {
           return Promise.reject("noContent");
         }
         return res.json();
       })
       .then((body) => {
-        console.log(body);
+        // console.log(body);
         setExpenseGenerated(body);
         setLoading(false);
         setNoContent(false);

@@ -10,34 +10,68 @@ import "assets/style/EditLandTable.css";
 
 const EditLandTable = () => {
   const auth = useAuth();
+  //id del lote
   const { landId } = useParams();
+  //el lote y un metodo
   const { lands, refetchData } = useOutletContext();
+
+  // las props del lote, array de 9 objetos en kvp
   const [landProps, setLandProps] = useState([]);
+
+  //las props strigified
   const [landData, setLandData] = useState("");
 
+  //sera el lote
   let land = {};
+
+  //seran los valores del lote
   let landValues = [];
 
+  // se guardaran los valores iniciales del lote
+  let originalLandValues = [];
+
+  // si hay lotes, entonces obtener el lote elegido,
+  // luego buscar los datos de las tablas del backend y agregarle los valores del lote elegido
   if (lands.length > 0) {
     land = lands.filter((x) => x.id === Number(landId))[0];
     landValues = tableNames().map((x) => ({
       ...x,
       landPropId: land[x.prop].id,
     }));
+
+    originalLandValues = landValues.map((x) => ({
+      [`${x.prop}Id`]: x.landPropId,
+    }));
   }
-  //TODO: verificar que pasa con landValues y newLandProps ("mismos valores?")
+
+  //Cuando cambie landValues y landProps.lenght sea igual a 0 setear los valores de landProps y
+  // de paso guardo los valores originales del lote
+  useEffect(() => {
+    if (landProps.length === 0) {
+      setLandProps(originalLandValues);
+    }
+  }, [landValues]);
+
   const handleChange = (e) => {
+    // Se obtiene el nombre de la propiedad a modificar
     const key = Object.keys(e)[0];
+
+    // Se obtiene el indice de la propiedad
     const index = landValues.findIndex((x) => x.table === Object.keys(e)[0]);
-    let newLandProps = [...landValues];
-    newLandProps[index].landPropId = e[key].id;
-    setLandProps((landProps) => [
-      ...newLandProps.map((x) => ({ [`${x.prop}Id`]: x.landPropId })),
-    ]);
+
+    // 'shallow' copy
+    let newLandProps = [...landProps];
+
+    // Prop name en landProps
+    const propName = Object.keys(newLandProps[index])[0];
+    // seteo el valor de la propiedad modificada
+    newLandProps[index][propName] = e[key].id;
+    setLandProps(newLandProps);
   };
 
   useEffect(() => {
     setLandData("");
+    setLandProps([]);
   }, [landId]);
 
   useEffect(() => {
@@ -50,10 +84,11 @@ const EditLandTable = () => {
   }, [landProps]);
 
   const handleEditClick = () => {
-    if (landData === "") {
+    if (JSON.stringify(landProps) === JSON.stringify(originalLandValues)) {
       toast.error("Debe modificar valores");
       return;
     }
+
     customFetchWithBody(
       "PUT",
       "/land/" + landId,

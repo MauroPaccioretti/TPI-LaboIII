@@ -13,7 +13,7 @@ const ViewUsers = () => {
     customFetch("GET", "/persons/withLands/", auth.token)
       .then((res) => res.json())
       .then((body) => {
-        console.log(body);
+        // console.log(body);
         setPersons(body);
         setLoading(false);
       });

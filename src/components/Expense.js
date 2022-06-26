@@ -15,7 +15,7 @@ const Expense = ({ expense }) => {
   if (datePaid && new Date(datePaid) > new Date(expirationDate)) {
     state = "paid-late";
   }
-  console.log(datePaid, new Date(datePaid));
+  // console.log(datePaid, new Date(datePaid));
   //   console.log(new Date(expirationDate).toLocaleDateString());
   //   console.log(typeof expirationDate);
   const month = new Date(expirationDate).getMonth() + 1;

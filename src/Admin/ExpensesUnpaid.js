@@ -18,7 +18,7 @@ const ExpensesUnpaid = () => {
     customFetch("GET", "/expense/unpaid/", auth.token)
       .then((res) => res.json())
       .then((body) => {
-        console.log(body);
+        // console.log(body);
         setExpensesUnpaid(body);
         setLoading(false);
       });
@@ -29,7 +29,7 @@ const ExpensesUnpaid = () => {
     // if (!PayDate) {
     //   return;
     // }
-    console.log(PayDate);
+    // console.log(PayDate);
     customFetchWithBody(
       "PUT",
       "/expense/" + idExpense,
@@ -43,7 +43,7 @@ const ExpensesUnpaid = () => {
         customFetch("GET", "/expense/unpaid/", auth.token)
           .then((res) => res.json())
           .then((body) => {
-            console.log(body);
+            // console.log(body);
             setExpensesUnpaid(body);
             setLoading(false);
             setInputPayDate("");
