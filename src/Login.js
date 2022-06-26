@@ -59,8 +59,12 @@ const Login = () => {
 
   const submitHandler = (event) => {
     event.preventDefault();
-    if (errors.length > 0 || email === "" || password === "") {
+    if (email === "" || password === "") {
       toast.error("Complete los datos");
+      return;
+    }
+    if (Object.keys(errors).length > 0) {
+      toast.error("Ingrese datos válidos");
       return;
     }
     dispatch.login(email, password);

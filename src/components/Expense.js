@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import "assets/style/Expense.css";
+import { DarkModeContext } from "Context/DarkModeContext";
 
 const Expense = ({ expense }) => {
+  const { darkMode } = useContext(DarkModeContext);
   const { datePaid, expirationDate, totalCost } = expense;
   let state = "";
   if (!datePaid && new Date(expirationDate) < Date.now()) {
@@ -18,7 +20,7 @@ const Expense = ({ expense }) => {
   //   console.log(typeof expirationDate);
   const month = new Date(expirationDate).getMonth() + 1;
   return (
-    <div className={`expense-element ${state}`}>
+    <div className={`expense-element ${state} ${darkMode ? "dark" : ""}`}>
       <h5>
         Periodo {month} / {new Date(expirationDate).getFullYear()}
       </h5>

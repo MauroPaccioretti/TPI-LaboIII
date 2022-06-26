@@ -2,7 +2,7 @@
   visibility: hidden;
 }
 .navbar-route {
-  background-color: lightgray;
+  background-color: #d3d3d3;
 }
 .logout-btn {
   border-radius: 5px;
@@ -18,7 +18,13 @@
 .div-name-logout {
   display: flex;
   justify-content: right;
+  padding: 5px 5px 0 0;
 }
 .user-name {
   font-weight: 600;
+}
+
+.navbar-route.dark {
+  background-color: var(--background-dark);
+  color: var(--color-dark)
 }

@@ -30,3 +30,15 @@ h5 {
     margin: 5px 0;
     padding: 5px 0;
 }
+
+.card.dark{
+    background-color: var(--background-dark2);
+    color: var(--color-dark);
+}
+
+.card--component.dark {
+    border-color: var(--color-dark);
+}
+.card--total.dark {
+    border-color: var(--color-dark);
+}

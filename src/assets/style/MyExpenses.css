@@ -8,7 +8,14 @@
   margin: auto 0;
 }
 .expense-container-admin {
-  width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.expense-container-admin-inside {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .no-expenses-text {
   display: flex;
@@ -29,4 +36,10 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+.span-exists {
+  text-align: center;
+}
+.span-exists.dark {
+  color: var(--color-dark)
 }

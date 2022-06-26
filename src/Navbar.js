@@ -1,22 +1,27 @@
-import React from "react";
-import { Outlet, Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import {
   useAuth,
   useAuthDispatch,
   useCapitalizeName,
 } from "./Context/AuthContextProvider";
+import { DarkModeContext } from "Context/DarkModeContext";
+
 import "assets/style/Navbar.css";
+import DarkModeSwitchBtn from "components/DarkModeSwitchBtn";
 
 const NavbarCustom = () => {
   const auth = useAuth();
   const dispatch = useAuthDispatch();
+  const { darkMode } = useContext(DarkModeContext);
+
   return (
-    <div className="navbar-route">
+    <div className={`navbar-route ${darkMode ? "dark" : ""}`}>
       <div className="div-name-logout">
         <span>
           Hola,{" "}
           <span className="user-name">
-            {useCapitalizeName(auth.currentUser?.name)}
+            {useCapitalizeName(auth.currentUser?.name)}{" "}
           </span>
           <Link to="/">
             <button
@@ -30,8 +35,9 @@ const NavbarCustom = () => {
           </Link>
         </span>
       </div>
-
-      {/* <Outlet /> */}
+      <div className="div-name-logout">
+        <DarkModeSwitchBtn />
+      </div>
     </div>
   );
 };

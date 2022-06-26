@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Form } from "react-bootstrap";
 import "assets/style/CardLand.css";
+import { DarkModeContext } from "Context/DarkModeContext";
+
 const CardLand = ({ land }) => {
+  const { darkMode } = useContext(DarkModeContext);
+
   const {
     id,
     activityMain,
@@ -20,14 +24,14 @@ const CardLand = ({ land }) => {
   } = land;
 
   return (
-    <div className="card">
+    <div className={`card ${darkMode ? "dark" : ""}`}>
       <h4>Lote número: {id}</h4>
-      <div className="card--total">
+      <div className={`card--total ${darkMode ? "dark" : ""}`}>
         <h5>Costo total: ${costTotal}</h5>
       </div>
       <Form className="container-sm">
         <h5>Componentes geográficos</h5>
-        <div className="card--component">
+        <div className={`card--component ${darkMode ? "dark" : ""}`}>
           <Form.Group className="mb-3">
             <h6>Tipo de manzana</h6>
             <Form.Control
@@ -60,7 +64,7 @@ const CardLand = ({ land }) => {
         </div>
 
         <h5>Actividades</h5>
-        <div className="card--component">
+        <div className={`card--component ${darkMode ? "dark" : ""}`}>
           <Form.Group className="mb-3">
             <h6>Actividad</h6>
             <Form.Control
@@ -93,7 +97,7 @@ const CardLand = ({ land }) => {
         </div>
 
         <h5>Componentes Ambientales</h5>
-        <div className="card--component">
+        <div className={`card--component ${darkMode ? "dark" : ""}`}>
           <Form.Group className="mb-3">
             <h6>Cantidad de desechos sólidos</h6>
             <Form.Control

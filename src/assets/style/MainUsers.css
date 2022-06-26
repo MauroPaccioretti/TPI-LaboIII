@@ -25,3 +25,20 @@
   background-color: #f5f5f5;
   color: black;
 }
+
+
+.tabs.dark {
+    background-color: var(--background-dark);
+  }
+  .tab.dark {
+    background-color: var(--background-dark2);
+    color: var(--color-dark);
+  }
+  .tab.dark.active-style{
+    background-color: var(--background-medium);
+    color: var(--color-dark);  
+  }
+  .mainusers-container.dark {
+    background-color: var(--background-medium);
+  }
+  

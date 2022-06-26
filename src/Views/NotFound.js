@@ -1,10 +1,10 @@
 import React from "react";
-import NavbarCustome from "../Navbar";
+import NavbarCustomized from "../Navbar";
 
 export const NotFound = () => {
   return (
     <div>
-      <NavbarCustome />
+      <NavbarCustomized />
       404
     </div>
   );

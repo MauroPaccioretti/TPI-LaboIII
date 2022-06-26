@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth, useAuthDispatch } from "./Context/AuthContextProvider";
 
@@ -13,11 +13,20 @@ import MyLands from "Users/MyLands";
 import MyExpenses from "Users/MyExpenses";
 import EditLand from "Users/EditLand";
 import EditLandTable from "components/EditLandTable";
+import { DarkModeContext } from "Context/DarkModeContext";
 
 const RoutingComponent = () => {
   const auth = useAuth();
   const dispatch = useAuthDispatch();
+  const { darkMode } = useContext(DarkModeContext);
 
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [darkMode]);
   const [routes, setRoutes] = useState("login");
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
@@ -33,14 +42,12 @@ const RoutingComponent = () => {
     setRoutes(routesFunction());
   }, [auth.currentUser]);
 
-  // {/* <Route path="*" element={<Navigate to="user" replace />} /> */}
   const routesFunction = () => {
     switch (auth.currentUser?.role) {
       case "Usuario": {
         return (
           <Routes>
             <Route path="user" element={<MainUsers />}>
-              {/* <Route index element={<MyLands />} /> */}
               <Route path="mylands" element={<MyLands />} />
               <Route path="myexpenses" element={<MyExpenses />} />
               <Route path="editland" element={<EditLand />}>
@@ -55,7 +62,6 @@ const RoutingComponent = () => {
         return (
           <Routes>
             <Route path="admin" element={<MainAdmin />}>
-              {/* <Route index element={<ExpensesUnpaid />} /> */}
               <Route path="expensesunpaid" element={<ExpensesUnpaid />} />
               <Route path="viewusers" element={<ViewUsers />} />
               <Route path="payment" element={<Payment />} />
@@ -86,22 +92,7 @@ const RoutingComponent = () => {
     }
   };
 
-  //Routes segun rol renderizar algunas u otras si es ['Usuario', 'Admin', 'Super Admin']
-
-  //auth.currentUser.role ['Usuario', 'Admin', 'Super Admin']
-  return (
-    <BrowserRouter>
-      {routes}
-
-      {/* <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="login" element={<Login />} />
-        <Route path="admin" element={<MainAdmin />} />
-        <Route path="user" element={<MainUsers />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes> */}
-    </BrowserRouter>
-  );
+  return <BrowserRouter>{routes}</BrowserRouter>;
 };
 
 export default RoutingComponent;

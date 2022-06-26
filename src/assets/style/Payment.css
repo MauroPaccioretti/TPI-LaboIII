@@ -1,8 +1,17 @@
-.div-container {
-  margin-left: 5%;
+.div-container-admin {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  align-items: center;
+  justify-content: center;
+  margin: auto 0;
+}
+.selector {
+  margin: 0 auto;
 }
 .select {
   border-radius: 5px;
+  margin: 0 5px
 }
 .addPayment-btn {
   border-radius: 5px;
@@ -15,6 +24,13 @@
   background-color: lightblue;
   color: rgb(3, 3, 3);
 }
+.addPayment-btn.dark:hover {
+  background-color: lightblue;
+  color: var(--color-light)
+}
 .expense-container {
   display: flex;
+}
+.addPayment-btn.dark{
+  background-color: var(--background-dark2);
 }
