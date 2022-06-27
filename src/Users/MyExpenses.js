@@ -32,7 +32,9 @@ const MyExpenses = () => {
         <Loading />
       ) : (
         <div className="my-expenses-card-container">
-          {expenses.length > 0 ? (
+          {!expenses ? (
+            <p>No hay expensas para mostrar</p>
+          ) : expenses.length > 0 ? (
             expenses.map((x) => <ExpensesByLand key={x.id} arrExpense={x} />)
           ) : (
             <p className="no-expenses-text">No hay expensas para mostrar</p>

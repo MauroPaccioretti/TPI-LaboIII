@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { DarkModeContext } from "Context/DarkModeContext";
 import { customFetch, handleServerError } from "utils/helpers";
 
-const CreateUser = () => {
+const CreateUser = ({ isUpdate }) => {
   const auth = useAuth();
   const dispatch = useAuthDispatch();
   const { darkMode } = useContext(DarkModeContext);
@@ -16,6 +16,13 @@ const CreateUser = () => {
   const [password, setPassword] = useState();
   const [errors, setErrors] = useState({});
   const [types, setTypes] = useState([]);
+
+  // crear select para type y handlear el change
+  // verificar el uso de validacion de errores
+  // estilizar
+  // acomodar el modal de deleteUser
+  // acomodar el asunto de editarUser, probablemente con outlet y que cambie la vista
+  // de los users por users/:idUser-a-editar, poner un btn volver
 
   useEffect(() => {
     customFetch("GET", "/persons/types", auth.token)
@@ -81,6 +88,7 @@ const CreateUser = () => {
 
   return (
     <div>
+      {isUpdate ? <p>Actualizar usuario</p> : <p>Crear usuario</p>}
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="create-user-name">
           <Form.Control

@@ -24,7 +24,7 @@ export function handleServerError(dispatcher, response) {
     toast.error("El tiempo de su sesión venció");
     setTimeout(() => {
       dispatcher.logout();
-    }, 5000);
+    }, 3000);
     return 401;
   }
   if (response.status === 400) {

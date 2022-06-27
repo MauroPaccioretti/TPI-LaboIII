@@ -86,6 +86,8 @@ const ExpensesUnpaid = () => {
     <div className="table-container">
       {loading ? (
         <Loading />
+      ) : !expensesUnpaid ? (
+        <p>No hay expensas para mostrar</p>
       ) : (
         <table className="table table-hover">
           <thead>
@@ -140,7 +142,6 @@ const ExpensesUnpaid = () => {
           </tbody>
         </table>
       )}
-      ;
     </div>
   );
 };
