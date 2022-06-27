@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth, useAuthDispatch } from "./Context/AuthContextProvider";
-
 import Login from "./Login";
 import MainAdmin from "./Admin/MainAdmin";
 import ViewUsers from "Admin/ViewUsers";
 import ExpensesUnpaid from "Admin/ExpensesUnpaid";
 import Payment from "Admin/Payment";
 import MainUsers from "./Users/MainUsers";
-import { NotFound } from "./Views/NotFound";
 import MyLands from "Users/MyLands";
 import MyExpenses from "Users/MyExpenses";
 import EditLand from "Users/EditLand";
 import EditLandTable from "components/EditLandTable";
 import { DarkModeContext } from "Context/DarkModeContext";
+import MainSuperAdmin from "superAdmin/MainSuperAdmin";
+import CreateUser from "superAdmin/CreateUser";
 
 const RoutingComponent = () => {
   const auth = useAuth();
@@ -77,15 +77,22 @@ const RoutingComponent = () => {
       case "Super Admin": {
         return (
           <Routes>
-            <Route path="super-admin" element={<NotFound />} />
+            <Route path="superadmin" element={<MainSuperAdmin />}>
+              <Route path="viewusers" element={<ViewUsers />} />
+              <Route path="createuser" element={<CreateUser />} />
+            </Route>
+            <Route
+              path="*"
+              element={<Navigate replace to="superadmin/viewusers" />}
+            />
           </Routes>
         );
       }
       default: {
         return (
           <Routes>
-            <Route path="/" element={<Login />} />;
-            <Route path="*" element={<Navigate replace to="/" />} />
+            <Route path="login" element={<Login />} />;
+            <Route path="*" element={<Navigate replace to="login" />} />
           </Routes>
         );
       }

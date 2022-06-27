@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useAuthDispatch, useAuth } from "./Context/AuthContextProvider";
+import { DarkModeContext } from "Context/DarkModeContext";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { toast } from "react-toastify";
 import logo from "./expense.png";
-
 import "assets/style/Login.css";
 
 const Login = () => {
+  const { darkMode } = useContext(DarkModeContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -108,7 +109,7 @@ const Login = () => {
             size="lg"
             placeholder="Contraseña"
             autoComplete="password"
-            className="position-relative mt-5"
+            className="position-relative mt-5 mb-5"
             value={password}
             onChange={(event) => {
               setPassword(event.target.value);
@@ -117,16 +118,17 @@ const Login = () => {
           />
           {errors?.password && <div className="error">{errors.password}</div>}
         </Form.Group>
-        <Form.Group
-          controlId="sign-in-remember-me"
-          className="d-flex justify-content-center mb-4"
-        ></Form.Group>
         <div className="d-grid">
           {auth.waitingLogin && (
             <p>Ingresando a la aplicación, por favor espere....</p>
           )}
           {!auth.waitingLogin && (
-            <Button type="submit" variant="primary" size="lg">
+            <Button
+              type="submit"
+              variant="primary"
+              size="lg"
+              className={`${darkMode ? "dark" : ""}`}
+            >
               Iniciar Sesión
             </Button>
           )}

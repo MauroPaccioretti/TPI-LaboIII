@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { customFetchWithBody } from "../utils/helpers";
-import { useAuth } from "../Context/AuthContextProvider";
+import { customFetchWithBody, handleServerError } from "utils/helpers.js";
+import { useAuth, useAuthDispatch } from "../Context/AuthContextProvider";
 import Loading from "components/Loading";
 import Expense from "components/Expense";
 import "assets/style/Payment.css";
@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 
 const Payment = () => {
   const auth = useAuth();
+  const dispatch = useAuthDispatch();
   const { darkMode } = useContext(DarkModeContext);
   const [expenseGenerated, setExpenseGenerated] = useState([]);
   const [monthSelect, setMonthSelect] = useState("");
@@ -42,12 +43,19 @@ const Payment = () => {
       auth.token
     )
       .then((res) => {
-        // console.log(res);
-        if (res.status === 204) {
-          return Promise.reject("noContent");
+        const err = handleServerError(dispatch, res);
+        if (err) {
+          return;
         }
         return res.json();
       })
+      // .then((res) => {
+      //   // console.log(res);
+      //   if (res.status === 204) {
+      //     return Promise.reject("noContent");
+      //   }
+      //   return res.json();
+      // })
       .then((body) => {
         // console.log(body);
         setExpenseGenerated(body);
@@ -56,7 +64,7 @@ const Payment = () => {
       })
       .catch(function (error) {
         setLoading(false);
-        if (error == "noContent") {
+        if (error === "noContent") {
           setNoContent(true);
           return;
         }

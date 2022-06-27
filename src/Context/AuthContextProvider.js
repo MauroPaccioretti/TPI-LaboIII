@@ -5,6 +5,8 @@ import React, {
   useState,
   useEffect,
 } from "react";
+import { toast } from "react-toastify";
+import { handleServerError } from "utils/helpers";
 import { baseUrl } from "../utils/constants/serverConstants";
 
 const initialState = {
@@ -64,7 +66,7 @@ export default function AuthContextProvider({ children }) {
                 } else {
                   dispatch({
                     type: "setError",
-                    error: "Usuario inexistente.",
+                    error: "Credenciales inválidas.",
                   });
                 }
               })
@@ -75,7 +77,7 @@ export default function AuthContextProvider({ children }) {
                 });
               });
           } else {
-            dispatch({ type: "setError", error: "Usuario inexistente." });
+            dispatch({ type: "setError", error: "Credenciales inválidas." });
           }
         })
         .catch(() => {

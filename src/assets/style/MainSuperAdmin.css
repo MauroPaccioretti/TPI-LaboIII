@@ -1,0 +1,44 @@
+.mainsuperadmin-container {
+    margin: 30px 0 50px 0;
+  }
+  .card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .tabs {
+    padding-left: 25px;
+    height: 60px;
+    background-color: lightgrey;
+    display: flex;
+    align-items: flex-end;
+  }
+  .tab {
+    margin: 0 10px;
+    padding: 3px 10px;
+    background-color: #292a36;
+    border-radius: 4px 4px 0 0;
+    text-decoration: none;
+    color: white;
+  }
+  .active-style {
+    background-color: #f5f5f5;
+    color: black;
+  }
+  
+  
+  .tabs.dark {
+      background-color: var(--background-dark);
+    }
+    .tab.dark {
+      background-color: var(--background-dark2);
+      color: var(--color-dark);
+    }
+    .tab.dark.active-style{
+      background-color: var(--background-medium);
+      color: var(--color-dark);  
+    }
+    .mainusers-container.dark {
+      background-color: var(--background-medium);
+    }
+    

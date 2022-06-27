@@ -5,10 +5,41 @@
   border: 1px solid gray;
   border-radius: 5px;
   padding: 10px;
-  padding-right: 40px;
   margin: 5px 5px;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .land-list-container {
   font-weight: 500;
   color: darkred;
+}
+.users-view-container ul{
+  padding: 0;
+}
+.users-view__btn-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.users-view__btn-edit {
+  border-radius: 5px;
+  background-color: lightblue;
+  border-style: none;
+  border: 1px solid black;
+}
+
+.users-view__btn-edit:hover {
+  background-color: linen;
+}
+
+
+.users-view__btn-delete {
+  border-radius: 5px;
+  background-color: rgb(250, 9, 9);
+  color: white;
+  border-style: none;
+}
+
+.users-view__btn-delete:hover {
+  background-color: lightcoral;
 }

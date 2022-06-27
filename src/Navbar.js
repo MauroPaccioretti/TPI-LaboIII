@@ -25,7 +25,7 @@ const NavbarCustom = () => {
           </span>
           <Link to="/">
             <button
-              class="logout-btn"
+              className="logout-btn"
               onClick={() => {
                 dispatch.logout();
               }}

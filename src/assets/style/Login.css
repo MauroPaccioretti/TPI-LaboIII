@@ -22,7 +22,10 @@ Button {
   background-color: gray;
   border-color: gray;
 }
-
+.btn-primary.dark {
+  background-color: var(--background-dark);
+  color: var(--color-dark);
+}
 .error {
   color: red;
 }

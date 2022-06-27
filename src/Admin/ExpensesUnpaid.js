@@ -1,22 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { customFetch } from "../utils/helpers";
-import { customFetchWithBody } from "../utils/helpers";
-import { useAuth } from "../Context/AuthContextProvider";
+import {
+  customFetch,
+  handleServerError,
+  customFetchWithBody,
+} from "utils/helpers.js";
+import { useAuth, useAuthDispatch } from "../Context/AuthContextProvider";
 import Loading from "components/Loading";
 import "assets/style/TableExpense.css";
+import { toast } from "react-toastify";
 
 const ExpensesUnpaid = () => {
   const auth = useAuth();
+  const dispatch = useAuthDispatch();
   const [expensesUnpaid, setExpensesUnpaid] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showInput, setShowInput] = useState(false);
-  const [noContent, setNoContent] = useState(false);
+  // const [showInput, setShowInput] = useState(false);
+  // const [noContent, setNoContent] = useState(false);
   const [inputPayDate, setInputPayDate] = useState("");
-  let state;
+  // let state;
 
   useEffect(() => {
     customFetch("GET", "/expense/unpaid/", auth.token)
-      .then((res) => res.json())
+      .then((res) => {
+        const err = handleServerError(dispatch, res);
+        if (err) {
+          return;
+        }
+        return res.json();
+      })
       .then((body) => {
         // console.log(body);
         setExpensesUnpaid(body);
@@ -36,12 +47,22 @@ const ExpensesUnpaid = () => {
       { datePaid: PayDate },
       auth.token
     )
-      .then(() => {
-        setNoContent(false);
+      .then((res) => {
+        const err = handleServerError(dispatch, res);
+        if (err) {
+          return;
+        }
+        // setNoContent(false);
       })
       .then(() => {
         customFetch("GET", "/expense/unpaid/", auth.token)
-          .then((res) => res.json())
+          .then((res) => {
+            const err = handleServerError(dispatch, res);
+            if (err) {
+              return;
+            }
+            return res.json();
+          })
           .then((body) => {
             // console.log(body);
             setExpensesUnpaid(body);
@@ -50,8 +71,8 @@ const ExpensesUnpaid = () => {
           });
       })
       .catch(function (error) {
-        if (error == "noContent") {
-          setNoContent(true);
+        if (error === "noContent") {
+          // setNoContent(true);
           return;
         }
         return Promise.reject(error);
@@ -62,20 +83,20 @@ const ExpensesUnpaid = () => {
   };
 
   return (
-    <div class="table-container">
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th scope="col">Lote</th>
-            <th scope="col">Periodo</th>
-            <th scope="col">Monto</th>
-            <th scope="col">Vencimiento</th>
-            <th scope="col">Estado</th>
-          </tr>
-        </thead>
-        {loading ? (
-          <Loading />
-        ) : (
+    <div className="table-container">
+      {loading ? (
+        <Loading />
+      ) : (
+        <table className="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Lote</th>
+              <th scope="col">Periodo</th>
+              <th scope="col">Monto</th>
+              <th scope="col">Vencimiento</th>
+              <th scope="col">Estado</th>
+            </tr>
+          </thead>
           <tbody className="">
             {expensesUnpaid.map((L) =>
               L.map((e) => (
@@ -105,7 +126,7 @@ const ExpensesUnpaid = () => {
                       onInput={inputPayDateHandler}
                     ></input>
                     <button
-                      class="addPay-btn"
+                      className="addPay-btn"
                       onClick={() => {
                         btnAddPay(inputPayDate, e.id);
                       }}
@@ -117,8 +138,8 @@ const ExpensesUnpaid = () => {
               ))
             )}
           </tbody>
-        )}
-      </table>
+        </table>
+      )}
       ;
     </div>
   );
