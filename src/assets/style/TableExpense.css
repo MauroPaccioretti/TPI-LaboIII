@@ -5,13 +5,27 @@
   border-style: none;
   border-width: 1px;
 }
+.addPay-btn.dark {
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  border-style: none;
+  border-width: 1px;
+}
+.addPay-btn.dark:hover {
+  background-color: lightblue;
+  color: rgb(3, 3, 3);
+}
 .addPay-btn:hover {
   background-color: lightblue;
   color: rgb(3, 3, 3);
 }
 
 .table-container {
-  margin-left: 2%;
+  width: 70vw;
+}
+td {
+  white-space: nowrap;
 }
 .table {
   display: inline-table;

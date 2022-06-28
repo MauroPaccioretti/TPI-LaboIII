@@ -47,6 +47,10 @@ const Payment = () => {
         if (err) {
           return;
         }
+        if (res.status === 204) {
+          return Promise.reject("noContent");
+        }
+
         return res.json();
       })
       // .then((res) => {
