@@ -35,15 +35,20 @@ const Login = () => {
     password: { required: true },
   };
 
-  const validate = (loginObject) => {
+  const validate = (loginObject, field) => {
     let errors = {};
     if (loginObject) {
       Object.keys(validationRequirements).forEach((key) => {
-        if (validationRequirements[key].required && !loginObject[key]) {
+        if (
+          validationRequirements[key].required &&
+          !loginObject[key] &&
+          (key === field || !field)
+        ) {
           errors[key] = "El campo es obligatorio.";
         } else if (
           validationRequirements[key].isEmail &&
-          !validEmail(loginObject[key])
+          !validEmail(loginObject[key]) &&
+          (key === field || !field)
         ) {
           errors[key] = "Debe ingresar un email válido.";
         }
@@ -52,14 +57,21 @@ const Login = () => {
     return errors;
   };
 
-  useEffect(() => {
-    if (email || password) {
-      setErrors(validate(loginObject()));
-    }
-  }, [email, password]);
+  // useEffect(() => {
+  //   if (email || password) {
+  //     setErrors(validate(loginObject()));
+  //   }
+  // }, [email, password]);
+  // useEffect(() => {
+  //   if (email) {
+  //     setErrors(validate(loginObject(), "email"));
+  //   }
+  // }, [email]);
 
   const submitHandler = (event) => {
     event.preventDefault();
+    setErrors(validate(loginObject()));
+
     if (email === "" || password === "") {
       toast.error("Complete los datos");
       return;
@@ -98,7 +110,7 @@ const Login = () => {
               setEmail(event.target.value);
             }}
             onBlur={(event) => {
-              setErrors(validate(loginObject()));
+              setErrors(validate(loginObject(), "email"));
             }}
           />
           {errors?.email && <div className="error">{errors.email}</div>}
@@ -109,12 +121,12 @@ const Login = () => {
             size="lg"
             placeholder="Contraseña"
             autoComplete="password"
-            className="position-relative mt-5 mb-5"
+            className="position-relative mt-5"
             value={password}
             onChange={(event) => {
               setPassword(event.target.value);
             }}
-            onBlur={(event) => setErrors(validate(loginObject()))}
+            onBlur={(event) => setErrors(validate(loginObject(), "password"))}
           />
           {errors?.password && <div className="error">{errors.password}</div>}
         </Form.Group>

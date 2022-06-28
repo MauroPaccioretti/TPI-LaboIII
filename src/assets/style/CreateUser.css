@@ -1,0 +1,14 @@
+.create-user__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    min-width: 330px;
+    justify-content: center;
+    margin: 0 auto;
+}
+.create-user__container form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
