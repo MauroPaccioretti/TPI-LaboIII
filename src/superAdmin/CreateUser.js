@@ -9,28 +9,32 @@ import {
   customFetchWithBody,
   handleServerError,
 } from "utils/helpers";
+import { useOutletContext, useParams } from "react-router-dom";
 import "assets/style/CreateUser.css";
 
-const CreateUser = ({ isUpdate }) => {
+const CreateUser = ({}) => {
+  const { isUpdate, person } = useOutletContext() || {};
   const auth = useAuth();
   const dispatch = useAuthDispatch();
   const { darkMode } = useContext(DarkModeContext);
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [personTypeId, setPersonTypeId] = useState();
-  const [password, setPassword] = useState();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [personTypeId, setPersonTypeId] = useState(0);
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [types, setTypes] = useState([]);
 
   const handleSelectChange = (e) => {
     setPersonTypeId(Number(e.target.value));
   };
-  // crear select para type y handlear el change
-  // verificar el uso de validacion de errores
-  // estilizar
-  // acomodar el modal de deleteUser
+
   // acomodar el asunto de editarUser, probablemente con outlet y que cambie la vista
   // de los users por users/:idUser-a-editar, poner un btn volver
+  // Poner boton cuando isUpdate para volver a la navegacion sin :userId
+  // Ver que hacer con la password (traerla desde front y chau?)
+  // Poner verificacion de password?
+
+  // Ver porque no se elimina un usuario. Endpoint anda (incluso en postman)
 
   useEffect(() => {
     customFetch("GET", "/persons/types", auth.token)
@@ -46,6 +50,15 @@ const CreateUser = ({ isUpdate }) => {
       });
   }, []);
 
+  useEffect(() => {
+    if (person) {
+      setName(person.name);
+      setEmail(person.email);
+      setPassword(person.password);
+      setPersonTypeId(person.personType.id);
+    }
+  }, [person]);
+
   const validEmail = (email) => {
     return String(email)
       .toLowerCase()
@@ -55,7 +68,7 @@ const CreateUser = ({ isUpdate }) => {
   const validationRequirements = {
     name: { required: true, minLenght: 3 },
     email: { required: true, isEmail: true },
-    password: { required: true },
+    password: { required: true, minLenght: 5 },
     personTypeId: { required: true },
   };
 
@@ -69,7 +82,7 @@ const CreateUser = ({ isUpdate }) => {
   };
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(JSON.stringify(userObject()));
+    setErrors(validate(userObject()));
 
     customFetchWithBody("POST", "/persons", userObject(), auth.token).then(
       (res) => {
@@ -98,21 +111,29 @@ const CreateUser = ({ isUpdate }) => {
           (key === field || !field)
         ) {
           errors[key] = "Debe ingresar un email válido.";
+        } else if (
+          validationRequirements[key].minLenght &&
+          userObject[key].length < validationRequirements[key].minLenght &&
+          (key === field || !field)
+        ) {
+          errors[
+            key
+          ] = `Mínimo ${validationRequirements[key].minLenght} caracteres.`;
         }
       });
     }
     return errors;
   };
 
-  useEffect(() => {
-    if (name || email || password) {
-      setErrors(validate(userObject()));
-    }
-  }, [name, email, password]);
+  // useEffect(() => {
+  //   if (name || email || password) {
+  //     setErrors(validate(userObject()));
+  //   }
+  // }, [name, email, password]);
 
   return (
     <div className="create-user__container">
-      {isUpdate ? <p>Actualizar usuario</p> : <p>Crear usuario</p>}
+      {isUpdate ? <h2>Actualizar usuario</h2> : <h2>Crear usuario</h2>}
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="create-user-name">
           <Form.Control
@@ -128,7 +149,7 @@ const CreateUser = ({ isUpdate }) => {
               setErrors(validate(userObject(), "name"));
             }}
           />
-          {errors?.name && <div className="error">{errors.password}</div>}
+          {errors?.name && <div className="error">{errors.name}</div>}
         </Form.Group>
         <Form.Group controlId="create-user-email-address">
           <Form.Control
@@ -167,7 +188,11 @@ const CreateUser = ({ isUpdate }) => {
             onChange={(e) => {
               handleSelectChange(e);
             }}
+            onBlur={() => {
+              setErrors(validate(userObject(), "personTypeId"));
+            }}
           >
+            <option value={0}>Seleccione un tipo de usuario</option>
             {types ? (
               types.map((x) => {
                 return (
@@ -180,6 +205,9 @@ const CreateUser = ({ isUpdate }) => {
               <option>Cargando...</option>
             )}
           </Form.Select>
+          {errors?.personTypeId && (
+            <div className="error">{errors.personTypeId}</div>
+          )}
         </Form.Group>
         <Button
           type="submit"
@@ -187,7 +215,7 @@ const CreateUser = ({ isUpdate }) => {
           size="lg"
           className={`${darkMode ? "dark" : ""}`}
         >
-          Crear Usuario
+          {isUpdate ? "Actualizar usuario" : "Crear Usuario"}
         </Button>
       </Form>
     </div>

@@ -5,14 +5,17 @@ import Loading from "components/Loading";
 import User from "components/User";
 import "assets/style/ViewUsers.css";
 import { toast } from "react-toastify";
-// import { useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ViewUsers = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const auth = useAuth();
   const dispatch = useAuthDispatch();
   const [persons, setPersons] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [person, setPerson] = useState({});
+  const [isUpdate, setIsUpdate] = useState(false);
 
   const refetchData = () => {
     setLoading(true);
@@ -28,7 +31,6 @@ const ViewUsers = () => {
         return res.json();
       })
       .then((body) => {
-        // console.log(body);
         setPersons(body);
         setLoading(false);
       });
@@ -47,11 +49,16 @@ const ViewUsers = () => {
         return res.json();
       })
       .then((body) => {
-        // console.log(body);
         setPersons(body);
         setLoading(false);
       });
   }, []);
+
+  const editUser = (personToEdit) => {
+    setIsUpdate(true);
+    setPerson(personToEdit);
+    navigate(`${personToEdit.id}`);
+  };
 
   const personTypeToFilter =
     auth.currentUser?.role === "Super Admin" ? [2, 3] : [3];
@@ -73,11 +80,13 @@ const ViewUsers = () => {
                   person={x}
                   isSuperAdmin={auth.currentUser?.role === "Super Admin"}
                   refetchData={refetchData}
+                  editUser={editUser}
                 />
               ))
           )}
         </div>
       )}
+      <Outlet context={{ isUpdate, person }} />
     </div>
   );
 };

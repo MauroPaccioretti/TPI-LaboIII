@@ -1,27 +1,30 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "assets/style/User.css";
 import Modal from "./Modal";
 import { customFetch, handleServerError } from "utils/helpers";
 import { useAuth, useAuthDispatch } from "Context/AuthContextProvider";
 import { toast } from "react-toastify";
+import { Outlet, useNavigate } from "react-router-dom";
 // import { DarkModeContext } from "Context/DarkModeContext";
 
-const User = ({ person, isSuperAdmin, refetchData }) => {
+const User = ({ person, isSuperAdmin, refetchData, editUser }) => {
   const auth = useAuth();
   const dispatch = useAuthDispatch();
   const [show, setShow] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
   const { name, email, landsList, personType } = person;
+  const navigate = useNavigate();
   // const { darkMode } = useContext(DarkModeContext);
   const handleDelete = () => {
     setShow(true);
   };
 
   const handleEdit = () => {
-    console.log("navigate to :userId");
+    setIsUpdate(true);
+    navigate(`${person.id}`);
   };
 
   const handleConfirmDelete = () => {
-    // return;
     customFetch("DELETE", "/persons/" + person.id, auth.token)
       .then((res) => {
         const err = handleServerError(dispatch, res);
@@ -40,6 +43,10 @@ const User = ({ person, isSuperAdmin, refetchData }) => {
       });
   };
 
+  useEffect(() => {
+    setIsUpdate(false);
+  }, []);
+
   return (
     <div className="users-view-container">
       <ul>
@@ -57,7 +64,12 @@ const User = ({ person, isSuperAdmin, refetchData }) => {
       </ul>
       {isSuperAdmin && (
         <div className="users-view__btn-container">
-          <button className="users-view__btn-edit" onClick={handleEdit}>
+          <button
+            className="users-view__btn-edit"
+            onClick={() => {
+              editUser(person);
+            }}
+          >
             Editar Usuario
           </button>
           <button className="users-view__btn-delete" onClick={handleDelete}>
