@@ -78,10 +78,9 @@ const RoutingComponent = () => {
         return (
           <Routes>
             <Route path="superadmin" element={<MainSuperAdmin />}>
-              <Route path="viewusers" element={<ViewUsers />}>
-                <Route path=":userId" element={<CreateUser />} />
-              </Route>
+              <Route path="viewusers" element={<ViewUsers />} />
               <Route path="createuser" element={<CreateUser />} />
+              <Route path="updateuser/:userId" element={<CreateUser />} />
             </Route>
             <Route
               path="*"

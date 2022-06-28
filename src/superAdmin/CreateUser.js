@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import InputGroup from "react-bootstrap/InputGroup";
 import { useAuthDispatch, useAuth } from "Context/AuthContextProvider";
 import { toast } from "react-toastify";
 import { DarkModeContext } from "Context/DarkModeContext";
@@ -9,18 +10,27 @@ import {
   customFetchWithBody,
   handleServerError,
 } from "utils/helpers";
-import { useOutletContext, useParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from "react-router-dom";
 import "assets/style/CreateUser.css";
 
 const CreateUser = ({}) => {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
   const { isUpdate, person } = useOutletContext() || {};
   const auth = useAuth();
   const dispatch = useAuthDispatch();
   const { darkMode } = useContext(DarkModeContext);
+  const [isUpdateUrl, setIsUpdateUrl] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [personTypeId, setPersonTypeId] = useState(0);
   const [password, setPassword] = useState("");
+  const [passwordState, setPasswordState] = useState(true);
   const [errors, setErrors] = useState({});
   const [types, setTypes] = useState([]);
 
@@ -37,6 +47,11 @@ const CreateUser = ({}) => {
   // Ver porque no se elimina un usuario. Endpoint anda (incluso en postman)
 
   useEffect(() => {
+    if (pathname === "/superadmin/createuser") {
+      setIsUpdateUrl(false);
+    } else {
+      setIsUpdateUrl(true);
+    }
     customFetch("GET", "/persons/types", auth.token)
       .then((res) => {
         const err = handleServerError(dispatch, res);
@@ -51,13 +66,13 @@ const CreateUser = ({}) => {
   }, []);
 
   useEffect(() => {
-    if (person) {
+    if (person && isUpdateUrl) {
       setName(person.name);
       setEmail(person.email);
       setPassword(person.password);
       setPersonTypeId(person.personType.id);
     }
-  }, [person]);
+  }, [person, isUpdateUrl]);
 
   const validEmail = (email) => {
     return String(email)
@@ -68,7 +83,7 @@ const CreateUser = ({}) => {
   const validationRequirements = {
     name: { required: true, minLenght: 3 },
     email: { required: true, isEmail: true },
-    password: { required: true, minLenght: 5 },
+    password: { required: true, minLenght: 4 },
     personTypeId: { required: true },
   };
 
@@ -83,16 +98,38 @@ const CreateUser = ({}) => {
   const submitHandler = (e) => {
     e.preventDefault();
     setErrors(validate(userObject()));
-
-    customFetchWithBody("POST", "/persons", userObject(), auth.token).then(
-      (res) => {
+    if (isUpdateUrl) {
+      customFetchWithBody(
+        "PUT",
+        "/persons/" + person.id,
+        userObject(),
+        auth.token
+      ).then((res) => {
         const err = handleServerError(dispatch, res);
         if (err) {
           return;
         }
-        toast.success(`Usuario ${name} creado.`);
-      }
-    );
+        toast.success(`Usuario ${name} editado.`);
+      });
+    } else {
+      customFetchWithBody("POST", "/persons", userObject(), auth.token).then(
+        (res) => {
+          const err = handleServerError(dispatch, res);
+          if (err) {
+            return;
+          }
+          toast.success(`Usuario ${name} creado.`);
+        }
+      );
+    }
+  };
+
+  const handleReturnClick = () => {
+    navigate("viewusers");
+  };
+
+  const handlePasswordState = () => {
+    setPasswordState(!passwordState);
   };
 
   const validate = (userObject, field) => {
@@ -133,7 +170,7 @@ const CreateUser = ({}) => {
 
   return (
     <div className="create-user__container">
-      {isUpdate ? <h2>Actualizar usuario</h2> : <h2>Crear usuario</h2>}
+      {isUpdateUrl ? <h2>Actualizar usuario</h2> : <h2>Crear usuario</h2>}
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="create-user-name">
           <Form.Control
@@ -168,19 +205,31 @@ const CreateUser = ({}) => {
           {errors?.email && <div className="error">{errors.email}</div>}
         </Form.Group>
         <Form.Group controlId="create-user-password" className="mt-3">
-          <Form.Control
-            type="password"
-            size="lg"
-            placeholder="Contraseña"
-            className="position-relative"
-            value={password}
-            onChange={(event) => {
-              setPassword(event.target.value);
-            }}
-            onBlur={(event) => setErrors(validate(userObject(), "password"))}
-          />
-          {errors?.password && <div className="error">{errors.password}</div>}
+          <InputGroup.Text className="p-0">
+            <Form.Control
+              type={passwordState ? "password" : "text"}
+              size="lg"
+              placeholder="Contraseña"
+              className="position-relative"
+              value={password}
+              onChange={(event) => {
+                setPassword(event.target.value);
+              }}
+              onBlur={(event) => setErrors(validate(userObject(), "password"))}
+              onClick={() => handlePasswordState()}
+            />
+            <i
+              className={`p-1 ${
+                !passwordState ? "fas fa-eye-slash" : "fas fa-eye"
+              }`}
+              type="button"
+              onClick={() => handlePasswordState()}
+            >
+              {/* <i>{passwordState ? "fas fa-eye-slash" : "fas fa-eye"}</i> */}
+            </i>
+          </InputGroup.Text>
         </Form.Group>
+        {errors?.password && <div className="error">{errors.password}</div>}
         <Form.Group className="mt-3 mb-3">
           <Form.Select
             aria-label="Default select example"
@@ -215,8 +264,19 @@ const CreateUser = ({}) => {
           size="lg"
           className={`${darkMode ? "dark" : ""}`}
         >
-          {isUpdate ? "Actualizar usuario" : "Crear Usuario"}
+          {isUpdateUrl ? "Actualizar usuario" : "Crear Usuario"}
         </Button>
+        {isUpdateUrl && (
+          <Button
+            type="button"
+            variant="primary"
+            size="lg"
+            className={`${darkMode ? "dark" : ""}`}
+            onClick={handleReturnClick}
+          >
+            Volver
+          </Button>
+        )}
       </Form>
     </div>
   );
