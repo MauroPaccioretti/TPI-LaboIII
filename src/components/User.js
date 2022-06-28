@@ -5,6 +5,7 @@ import { customFetch, handleServerError } from "utils/helpers";
 import { useAuth, useAuthDispatch } from "Context/AuthContextProvider";
 import { toast } from "react-toastify";
 import { Outlet, useNavigate } from "react-router-dom";
+import { baseUrl } from "../utils/constants/serverConstants";
 // import { DarkModeContext } from "Context/DarkModeContext";
 
 const User = ({ person, isSuperAdmin, refetchData, editUser }) => {
@@ -25,7 +26,12 @@ const User = ({ person, isSuperAdmin, refetchData, editUser }) => {
   };
 
   const handleConfirmDelete = () => {
-    customFetch("DELETE", "/persons/" + person.id, auth.token)
+    fetch(baseUrl + "/persons/" + person.id, {
+      method: "DELETE",
+      headers: {
+        Authorization: "Bearer " + auth.token,
+      },
+    })
       .then((res) => {
         const err = handleServerError(dispatch, res);
         if (err) {
