@@ -57,7 +57,6 @@ const Payment = () => {
       //   return res.json();
       // })
       .then((body) => {
-        console.log(body);
         setExpenseGenerated(body);
         setLoading(false);
         setNoContent(false);
@@ -107,21 +106,42 @@ const Payment = () => {
             GENERAR COMPROBANTES
           </button>
         </div>
-        <div className="expense-container-admin-inside">
-          {loading ? (
-            <Loading />
-          ) : !noContent ? (
-            <div className="my-expenses-card-container-admin">
-              {expenseGenerated.map((x) => (
-                <Expense expense={x} />
-              ))}
-            </div>
+        {loading ? (
+          <Loading />
+        ) : !noContent ? (
+          expenseGenerated.length > 0 ? (
+            <table className="table table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">Lote</th>
+                  <th scope="col">Monto</th>
+                  <th scope="col">Vencimiento</th>
+                </tr>
+              </thead>
+              <tbody className="">
+                {expenseGenerated.map((e) => (
+                  <tr
+                    className={`${
+                      new Date(e.expirationDate) < Date.now() ? "late-row" : ""
+                    }`}
+                  >
+                    <th scope="row">
+                      {"#"} {e.landId}
+                    </th>
+                    <td>$ {e.totalCost}</td>
+                    <td>{new Date(e.expirationDate).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           ) : (
-            <span className={darkMode ? "span-exists dark" : "span-exists"}>
-              Las expensas para ese Periodo YA EXISTEN
-            </span>
-          )}
-        </div>
+            ""
+          )
+        ) : (
+          <span className={darkMode ? "span-exists dark" : "span-exists"}>
+            Las expensas para ese Periodo YA EXISTEN
+          </span>
+        )}
       </div>
     </div>
   );
