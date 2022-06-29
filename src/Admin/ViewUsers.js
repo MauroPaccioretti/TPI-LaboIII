@@ -131,7 +131,7 @@ const ViewUsers = () => {
   };
   return (
     <div>
-      <div className="p-2 mb-2 d-flex justify-content-center flex-column align-items-center flex-wrap">
+      <div className="p-2 mb-2 w-50 mx-auto d-flex justify-content-center flex-column align-items-center flex-wrap">
         <Button
           className="p-2 m-2 mb-2"
           variant="success"
