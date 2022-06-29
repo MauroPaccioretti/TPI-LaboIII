@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { customFetch, handleServerError } from "../utils/helpers";
+import {
+  customFetch,
+  customFetchWithBody,
+  handleServerError,
+} from "../utils/helpers";
 import { useAuth, useAuthDispatch } from "../Context/AuthContextProvider";
 import Loading from "components/Loading";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 import User from "components/User";
 import "assets/style/ViewUsers.css";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 // import { Outlet } from "react-router-dom";
 // import { useNavigate } from "react-router-dom";
 import { useOutletContext } from "react-router-dom";
@@ -16,6 +22,11 @@ const ViewUsers = () => {
   const dispatch = useAuthDispatch();
   const [persons, setPersons] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [ownerChangeOptions, setOwnerChangeOptions] = useState();
+  const [personId, setPersonId] = useState(0);
+  const [landsId, setLandsId] = useState([]);
+  const [landId, setLandId] = useState(0);
+
   // const [person, setPerson] = useState({});
   // const [isUpdate, setIsUpdate] = useState(false);
 
@@ -38,7 +49,7 @@ const ViewUsers = () => {
       });
   };
 
-  useEffect(() => {
+  const fetchPersonsWithLands = () => {
     customFetch("GET", "/persons/withLands/", auth.token)
       .then((res) => {
         const err = handleServerError(dispatch, res);
@@ -54,6 +65,20 @@ const ViewUsers = () => {
         setPersons(body);
         setLoading(false);
       });
+  };
+  useEffect(() => {
+    fetchPersonsWithLands();
+    customFetch("GET", "/land", auth.token)
+      .then((res) => {
+        const err = handleServerError(dispatch, res);
+        if (err) {
+          return;
+        }
+        return res.json();
+      })
+      .then((body) => {
+        setLandsId(body);
+      });
   }, []);
 
   // const editUser = (personToEdit) => {
@@ -63,10 +88,113 @@ const ViewUsers = () => {
   // };
 
   const personTypeToFilter =
-    auth.currentUser?.role === "Super Admin" ? [2, 3] : [3];
+    auth.currentUser?.role === "Super Admin" ? [1, 2, 3] : [3];
 
+  const toggleChangeOwnerClick = () => {
+    setOwnerChangeOptions(!ownerChangeOptions);
+  };
+
+  const handlePersonSelectChange = (e) => {
+    setPersonId(Number(e.target.value));
+  };
+  const handleLandSelectChange = (e) => {
+    setLandId(Number(e.target.value));
+  };
+
+  const handleChangeOwnerClick = () => {
+    if (!personId || !landId) {
+      toast.error("Debe seleccionar elementos.");
+      return;
+    }
+    const newOwner = persons.filter((x) => x.id === personId)[0];
+    const newOwnerPrevLands = newOwner.landsList;
+    const existingLand = !!newOwnerPrevLands.find((x) => x.id === landId);
+    if (existingLand) {
+      toast.error(`${newOwner.name} ya es dueño de ese lote.`);
+    }
+    customFetchWithBody(
+      "PUT",
+      "/land/changeowner/" + landId,
+      { personId: personId },
+      auth.token
+    )
+      .then((res) => {
+        const err = handleServerError(dispatch, res);
+        if (err) {
+          return;
+        }
+        toast.success(`${newOwner.name} es el nuevo dueño del lote #${landId}`);
+      })
+      .then(() => {
+        fetchPersonsWithLands();
+      });
+  };
   return (
     <div>
+      <div className="p-2 mb-2 d-flex justify-content-center flex-column align-items-center flex-wrap">
+        <Button
+          className="p-2 m-2 mb-2"
+          variant="success"
+          onClick={toggleChangeOwnerClick}
+        >
+          Cambiar dueño de un lote
+        </Button>
+        {ownerChangeOptions && (
+          <div className="d-flex justify-content-center">
+            <h5>Nuevo dueño</h5>
+            <Form.Select
+              aria-label="Default select example"
+              className="mb-3 mt-2"
+              value={personId}
+              onChange={(e) => {
+                handlePersonSelectChange(e);
+              }}
+            >
+              <option value={0}>Seleccione usuario</option>
+              {persons ? (
+                persons.map((x) => {
+                  return (
+                    <option key={x.id} value={x.id}>
+                      {x.name}
+                    </option>
+                  );
+                })
+              ) : (
+                <option>Cargando...</option>
+              )}
+            </Form.Select>
+            <h5>Lote a cambiar dueño</h5>
+            <Form.Select
+              aria-label="Default select example"
+              className="mb-3"
+              value={landId}
+              onChange={(e) => {
+                handleLandSelectChange(e);
+              }}
+            >
+              <option value={0}>Seleccione un lote</option>
+              {landsId ? (
+                landsId.map((x) => {
+                  return (
+                    <option key={x} value={x}>
+                      # {x}
+                    </option>
+                  );
+                })
+              ) : (
+                <option>Cargando...</option>
+              )}
+            </Form.Select>
+            <Button
+              className="p-2 m-2 mb-4"
+              variant="success"
+              onClick={handleChangeOwnerClick}
+            >
+              Modificar!
+            </Button>
+          </div>
+        )}
+      </div>
       {loading ? (
         <Loading />
       ) : (
