@@ -216,10 +216,9 @@ const CreateUser = ({}) => {
                 setPassword(event.target.value);
               }}
               onBlur={(event) => setErrors(validate(userObject(), "password"))}
-              onClick={() => handlePasswordState()}
             />
             <i
-              className={`p-1 ${
+              className={`p-2 ${
                 !passwordState ? "fas fa-eye-slash" : "fas fa-eye"
               }`}
               type="button"
