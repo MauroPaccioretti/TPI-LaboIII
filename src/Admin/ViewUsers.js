@@ -77,7 +77,7 @@ const ViewUsers = () => {
         return res.json();
       })
       .then((body) => {
-        setLandsId(body);
+        setLandsId(body.map((x) => x.id));
       });
   }, []);
 
@@ -131,7 +131,7 @@ const ViewUsers = () => {
   };
   return (
     <div>
-      <div className="p-2 mb-2 w-50 mx-auto d-flex justify-content-center flex-column align-items-center flex-wrap">
+      <div className="p-2 mb-2 mx-auto d-flex justify-content-center flex-column align-items-center flex-wrap">
         <Button
           className="p-2 m-2 mb-2"
           variant="success"
@@ -140,8 +140,8 @@ const ViewUsers = () => {
           Cambiar dueño de un lote
         </Button>
         {ownerChangeOptions && (
-          <div className="d-flex justify-content-center">
-            <h5>Nuevo dueño</h5>
+          <div className="d-flex flex-column justify-content-center change-ownwer__container">
+            <h5>Nuevo dueño:</h5>
             <Form.Select
               aria-label="Default select example"
               className="mb-3 mt-2"
@@ -163,10 +163,10 @@ const ViewUsers = () => {
                 <option>Cargando...</option>
               )}
             </Form.Select>
-            <h5>Lote a cambiar dueño</h5>
+            <h5>Lote a modificar:</h5>
             <Form.Select
               aria-label="Default select example"
-              className="mb-3"
+              className="mb-3 mt-1"
               value={landId}
               onChange={(e) => {
                 handleLandSelectChange(e);

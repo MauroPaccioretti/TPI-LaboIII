@@ -3,3 +3,7 @@
   justify-content: center;
   flex-wrap: wrap;
 }
+
+.change-ownwer__container {
+  min-width: 280px;
+}
