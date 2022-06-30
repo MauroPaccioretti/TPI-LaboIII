@@ -74,9 +74,9 @@ const Payment = () => {
   return (
     <div className="div-container-admin">
       <div className="expense-container-admin">
-        <div className="selector">
+        <div className="selector d-flex flex-wrap justify-content-center">
           <select
-            className="select"
+            className="select my-2"
             value={monthSelect}
             onChange={handleMonthChange}
           >
@@ -88,7 +88,7 @@ const Payment = () => {
             ))}
           </select>
           <select
-            className="select"
+            className="select my-2"
             value={yearSelect}
             onChange={handleYearChange}
           >
@@ -100,7 +100,7 @@ const Payment = () => {
             ))}
           </select>
           <button
-            className={`addPayment-btn ${darkMode ? "dark" : ""}`}
+            className={`m-2 addPayment-btn ${darkMode ? "dark" : ""}`}
             onClick={() => btnGeneratePayHandler(monthSelect, yearSelect)}
           >
             GENERAR COMPROBANTES

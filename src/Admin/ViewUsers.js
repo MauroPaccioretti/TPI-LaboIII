@@ -131,70 +131,72 @@ const ViewUsers = () => {
   };
   return (
     <div>
-      <div className="p-2 mb-2 mx-auto d-flex justify-content-center flex-column align-items-center flex-wrap">
-        <Button
-          className="p-2 m-2 mb-2"
-          variant="success"
-          onClick={toggleChangeOwnerClick}
-        >
-          Cambiar dueño de un lote
-        </Button>
-        {ownerChangeOptions && (
-          <div className="d-flex flex-column justify-content-center change-ownwer__container">
-            <h5>Nuevo dueño:</h5>
-            <Form.Select
-              aria-label="Default select example"
-              className="mb-3 mt-2"
-              value={personId}
-              onChange={(e) => {
-                handlePersonSelectChange(e);
-              }}
-            >
-              <option value={0}>Seleccione usuario</option>
-              {persons ? (
-                persons.map((x) => {
-                  return (
-                    <option key={x.id} value={x.id}>
-                      {x.name}
-                    </option>
-                  );
-                })
-              ) : (
-                <option>Cargando...</option>
-              )}
-            </Form.Select>
-            <h5>Lote a modificar:</h5>
-            <Form.Select
-              aria-label="Default select example"
-              className="mb-3 mt-1"
-              value={landId}
-              onChange={(e) => {
-                handleLandSelectChange(e);
-              }}
-            >
-              <option value={0}>Seleccione un lote</option>
-              {landsId ? (
-                landsId.map((x) => {
-                  return (
-                    <option key={x} value={x}>
-                      # {x}
-                    </option>
-                  );
-                })
-              ) : (
-                <option>Cargando...</option>
-              )}
-            </Form.Select>
-            <Button
-              className="p-2 m-2 mb-4"
-              variant="success"
-              onClick={handleChangeOwnerClick}
-            >
-              Modificar!
-            </Button>
-          </div>
-        )}
-      </div>
+      {auth?.currentUser.role === "Super Admin" && (
+        <div className="p-2 mb-2 mx-auto d-flex justify-content-center flex-column align-items-center flex-wrap">
+          <Button
+            className="p-2 m-2 mb-2"
+            variant="success"
+            onClick={toggleChangeOwnerClick}
+          >
+            Cambiar dueño de un lote
+          </Button>
+          {ownerChangeOptions && (
+            <div className="d-flex flex-column justify-content-center change-ownwer__container">
+              <h5>Nuevo dueño:</h5>
+              <Form.Select
+                aria-label="Default select example"
+                className="mb-3 mt-2"
+                value={personId}
+                onChange={(e) => {
+                  handlePersonSelectChange(e);
+                }}
+              >
+                <option value={0}>Seleccione usuario</option>
+                {persons ? (
+                  persons.map((x) => {
+                    return (
+                      <option key={x.id} value={x.id}>
+                        {x.name}
+                      </option>
+                    );
+                  })
+                ) : (
+                  <option>Cargando...</option>
+                )}
+              </Form.Select>
+              <h5>Lote a modificar:</h5>
+              <Form.Select
+                aria-label="Default select example"
+                className="mb-3 mt-1"
+                value={landId}
+                onChange={(e) => {
+                  handleLandSelectChange(e);
+                }}
+              >
+                <option value={0}>Seleccione un lote</option>
+                {landsId ? (
+                  landsId.map((x) => {
+                    return (
+                      <option key={x} value={x}>
+                        # {x}
+                      </option>
+                    );
+                  })
+                ) : (
+                  <option>Cargando...</option>
+                )}
+              </Form.Select>
+              <Button
+                className="p-2 m-2 mb-4"
+                variant="success"
+                onClick={handleChangeOwnerClick}
+              >
+                Modificar!
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
       {loading ? (
         <Loading />
       ) : (

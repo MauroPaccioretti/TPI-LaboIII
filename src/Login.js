@@ -113,7 +113,11 @@ const Login = () => {
               setErrors(validate(loginObject(), "email"));
             }}
           />
-          {errors?.email && <div className="error">{errors.email}</div>}
+          <div
+            className={`${errors.email ? "show-error" : "hide-error"} error`}
+          >
+            {errors.email ? `${errors.email}` : "placeholder"}
+          </div>
         </Form.Group>
         <Form.Group controlId="sign-in-password" className="mb-3">
           <Form.Control
@@ -121,14 +125,18 @@ const Login = () => {
             size="lg"
             placeholder="Contraseña"
             autoComplete="password"
-            className="position-relative mt-5"
+            className="position-relative mt-3"
             value={password}
             onChange={(event) => {
               setPassword(event.target.value);
             }}
             onBlur={(event) => setErrors(validate(loginObject(), "password"))}
           />
-          {errors?.password && <div className="error">{errors.password}</div>}
+          <div
+            className={`${errors.password ? "show-error" : "hide-error"} error`}
+          >
+            {errors.password ? `${errors.password}` : "placeholder"}
+          </div>
         </Form.Group>
         <div className="d-grid">
           {auth.waitingLogin && (

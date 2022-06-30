@@ -28,6 +28,14 @@ Button {
 }
 .error {
   color: red;
+  height: 24px;
+}
+.show-error {
+  opacity: 1;
+}
+
+.hide-error {
+  opacity: 0;
 }
 .exp-logo {
   width: 50%;

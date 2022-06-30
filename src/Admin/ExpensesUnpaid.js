@@ -81,9 +81,9 @@ const ExpensesUnpaid = () => {
   return (
     <div className="table-container">
       {showInputDate ? (
-        <div>
+        <div className="d-flex justify-content-center align-items-baseline">
           <label>
-            <h6>Ingrese una Fecha:</h6>
+            <h6 className="m-2">Ingrese una Fecha:</h6>
           </label>
           <span> </span>
           <input
@@ -103,6 +103,7 @@ const ExpensesUnpaid = () => {
             className={`addPay-btn ${darkMode ? "dark" : ""}`}
             onClick={() => {
               setShowInputDate(false);
+              setExpenseId(0);
             }}
           >
             Cancelar
@@ -128,12 +129,13 @@ const ExpensesUnpaid = () => {
             </tr>
           </thead>
           <tbody className="">
-            {expensesUnpaid.map((L) =>
+            {expensesUnpaid.map((L, index) =>
               L.map((e) => (
                 <tr
+                  key={e.id}
                   className={`${
                     new Date(e.expirationDate) < Date.now() ? "late-row" : ""
-                  }`}
+                  } ${expenseId === e.id ? "active-row" : ""}`}
                 >
                   <th scope="row">
                     {"#"} {e.landId}
@@ -157,7 +159,7 @@ const ExpensesUnpaid = () => {
                         setExpenseId(e.id);
                       }}
                     >
-                      Agregar Pago
+                      {expenseId === e.id ? "Ingrese Fecha" : "Agregar Pago"}
                     </button>
                   </td>
                 </tr>

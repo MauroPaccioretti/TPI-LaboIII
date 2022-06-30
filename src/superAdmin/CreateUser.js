@@ -49,6 +49,10 @@ const CreateUser = ({}) => {
   useEffect(() => {
     if (pathname === "/superadmin/createuser") {
       setIsUpdateUrl(false);
+      setName("");
+      setEmail("");
+      setPassword("");
+      setPersonTypeId(0);
     } else {
       setIsUpdateUrl(true);
     }
@@ -63,7 +67,7 @@ const CreateUser = ({}) => {
       .then((body) => {
         setTypes(body);
       });
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     if (person && isUpdateUrl) {
@@ -98,6 +102,9 @@ const CreateUser = ({}) => {
   const submitHandler = (e) => {
     e.preventDefault();
     setErrors(validate(userObject()));
+    if (errors) {
+      return;
+    }
     if (isUpdateUrl) {
       customFetchWithBody(
         "PUT",
@@ -177,7 +184,7 @@ const CreateUser = ({}) => {
             type="input"
             size="lg"
             placeholder="Nombre"
-            className="position-relative mt-3"
+            className="position-relative mt-2"
             value={name}
             onChange={(event) => {
               setName(event.target.value);
@@ -186,14 +193,18 @@ const CreateUser = ({}) => {
               setErrors(validate(userObject(), "name"));
             }}
           />
-          {errors?.name && <div className="error">{errors.name}</div>}
+          <div
+            className={`${errors.name ? "show-error" : "hide-error"} error `}
+          >
+            {errors.name ? `${errors.name}` : "placeholder"}
+          </div>
         </Form.Group>
         <Form.Group controlId="create-user-email-address">
           <Form.Control
-            type="email"
+            type="text"
             size="lg"
             placeholder="Email"
-            className="position-relative mt-3"
+            className="position-relative mt-2"
             value={email}
             onChange={(event) => {
               setEmail(event.target.value);
@@ -202,9 +213,13 @@ const CreateUser = ({}) => {
               setErrors(validate(userObject(), "email"));
             }}
           />
-          {errors?.email && <div className="error">{errors.email}</div>}
+          <div
+            className={`${errors.email ? "show-error" : "hide-error"} error `}
+          >
+            {errors.email ? `${errors.email}` : "placeholder"}
+          </div>
         </Form.Group>
-        <Form.Group controlId="create-user-password" className="mt-3">
+        <Form.Group controlId="create-user-password" className="mt-2">
           <InputGroup.Text className="p-0">
             <Form.Control
               type={passwordState ? "password" : "text"}
@@ -223,13 +238,15 @@ const CreateUser = ({}) => {
               }`}
               type="button"
               onClick={() => handlePasswordState()}
-            >
-              {/* <i>{passwordState ? "fas fa-eye-slash" : "fas fa-eye"}</i> */}
-            </i>
+            ></i>
           </InputGroup.Text>
         </Form.Group>
-        {errors?.password && <div className="error">{errors.password}</div>}
-        <Form.Group className="mt-3 mb-3">
+        <div
+          className={`${errors.password ? "show-error" : "hide-error"} error `}
+        >
+          {errors.password ? `${errors.password}` : "placeholder"}
+        </div>
+        <Form.Group className="mt-2 mb-3">
           <Form.Select
             aria-label="Default select example"
             value={personTypeId}
@@ -253,9 +270,13 @@ const CreateUser = ({}) => {
               <option>Cargando...</option>
             )}
           </Form.Select>
-          {errors?.personTypeId && (
-            <div className="error">{errors.personTypeId}</div>
-          )}
+          <div
+            className={`${
+              errors.personTypeId ? "show-error" : "hide-error"
+            } error `}
+          >
+            {errors.personTypeId ? `${errors.personTypeId}` : "placeholder"}
+          </div>
         </Form.Group>
         <Button
           type="submit"
