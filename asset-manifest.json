@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/TPI-LaboIII/static/css/main.e208dc38.css",
+    "main.js": "/TPI-LaboIII/static/js/main.bcc7893e.js",
+    "static/media/expense.png": "/TPI-LaboIII/static/media/expense.3c017ec1bf15690e36d6.png",
+    "index.html": "/TPI-LaboIII/index.html",
+    "main.e208dc38.css.map": "/TPI-LaboIII/static/css/main.e208dc38.css.map",
+    "main.bcc7893e.js.map": "/TPI-LaboIII/static/js/main.bcc7893e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e208dc38.css",
+    "static/js/main.bcc7893e.js"
+  ]
+}
